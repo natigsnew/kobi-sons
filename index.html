@@ -326,7 +326,7 @@
     text-align:center;
   }
   .doc-card{
-    border:2px solid var(--line);
+    border:2px dashed var(--line-soft);
     background:var(--surface);
     box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
     padding:22px 16px;
@@ -335,11 +335,25 @@
     align-items:center;
     gap:10px;
     min-height:110px;
+    transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  .doc-card.drag-over{
+    border-color:var(--accent-deep);
+    background:var(--surface-2);
+    box-shadow: calc(var(--shadow-offset) + 3px) calc(var(--shadow-offset) + 3px) 0 0 var(--accent-deep);
   }
   .doc-card h3{
     font-family:'Heebo',sans-serif;
     font-weight:700;
     font-size:1.05rem;
+  }
+  .doc-hint{
+    font-size:0.8rem;
+    color:var(--ink-muted);
+  }
+  .doc-error{
+    color:#c0392b;
+    font-size:0.78rem;
   }
   .doc-filename{
     font-size:0.82rem;
@@ -485,7 +499,7 @@
           <button type="button" class="rubric-card" data-name="חישוב עלות התארגנות לפי מסמכי מכרז"><span>חישוב עלות התארגנות לפי מסמכי מכרז</span></button>
           <button type="button" class="rubric-card" data-name="חישוב עלות תקורות לפי מסמכי מכרז"><span>חישוב עלות תקורות לפי מסמכי מכרז</span></button>
           <button type="button" class="rubric-card" data-name="חישוב דרכי גישה לאתר"><span>חישוב דרכי גישה לאתר</span></button>
-          <button type="button" class="rubric-card" data-name="פיקאצ'ו"><span>פיקאצ'ו</span></button>
+          <button type="button" class="rubric-card" data-name="הכנת קובץ כתב כמויות לפורמט מתאים"><span>הכנת קובץ כתב כמויות לפורמט מתאים</span></button>
           <button type="button" class="rubric-card" data-name="בולבזאור"><span>בולבזאור</span></button>
           <button type="button" class="rubric-card" data-name="צ'רמנדר"><span>צ'רמנדר</span></button>
         </div>
@@ -560,26 +574,32 @@
     <button type="button" class="modal-close" id="docsModalClose" aria-label="סגירה">✕</button>
     <h2 id="docsModalTitle">מסמכים</h2>
     <div class="rubric-grid docs-grid">
-      <div class="doc-card">
+      <div class="doc-card" data-doc="boq">
         <h3>כתב כמויות</h3>
-        <p class="doc-filename" id="docName-boq" data-empty="לא הועלה קובץ">לא הועלה קובץ</p>
+        <p class="doc-hint">גררו לכאן קובץ Excel, או</p>
         <button type="button" class="btn ghost doc-upload-btn" data-doc="boq">בחירת קובץ</button>
+        <input type="file" id="docFile-boq" class="doc-file-input" data-doc="boq" hidden accept=".xls,.xlsx">
+        <p class="doc-filename" id="docName-boq" data-empty="לא הועלה קובץ">לא הועלה קובץ</p>
         <button type="button" class="doc-remove-btn" data-doc="boq" id="docRemove-boq" hidden>הסרת קובץ</button>
-        <input type="file" id="docFile-boq" class="doc-file-input" data-doc="boq" hidden multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.csv">
+        <p class="doc-error" id="docError-boq" hidden></p>
       </div>
-      <div class="doc-card">
+      <div class="doc-card" data-doc="plans">
         <h3>תוכניות</h3>
-        <p class="doc-filename" id="docName-plans" data-empty="לא הועלו תוכניות" data-empty-plural="לא הועלו תוכניות">לא הועלו תוכניות</p>
+        <p class="doc-hint">גררו לכאן קבצי PDF, או</p>
         <button type="button" class="btn ghost doc-upload-btn" data-doc="plans">בחירת קבצים</button>
+        <input type="file" id="docFile-plans" class="doc-file-input" data-doc="plans" hidden multiple accept=".pdf">
+        <p class="doc-filename" id="docName-plans" data-empty="לא הועלו תוכניות" data-empty-plural="לא הועלו תוכניות">לא הועלו תוכניות</p>
         <button type="button" class="doc-remove-btn" data-doc="plans" id="docRemove-plans" hidden>הסרת קבצים</button>
-        <input type="file" id="docFile-plans" class="doc-file-input" data-doc="plans" hidden multiple accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png">
+        <p class="doc-error" id="docError-plans" hidden></p>
       </div>
-      <div class="doc-card">
+      <div class="doc-card" data-doc="tender">
         <h3>מסמכי מכרז</h3>
-        <p class="doc-filename" id="docName-tender" data-empty="לא הועלו מסמכים" data-empty-plural="לא הועלו מסמכים">לא הועלו מסמכים</p>
+        <p class="doc-hint">גררו לכאן קבצי PDF, או</p>
         <button type="button" class="btn ghost doc-upload-btn" data-doc="tender">בחירת קבצים</button>
+        <input type="file" id="docFile-tender" class="doc-file-input" data-doc="tender" hidden multiple accept=".pdf">
+        <p class="doc-filename" id="docName-tender" data-empty="לא הועלו מסמכים" data-empty-plural="לא הועלו מסמכים">לא הועלו מסמכים</p>
         <button type="button" class="doc-remove-btn" data-doc="tender" id="docRemove-tender" hidden>הסרת קבצים</button>
-        <input type="file" id="docFile-tender" class="doc-file-input" data-doc="tender" hidden multiple accept=".pdf,.doc,.docx,.xls,.xlsx">
+        <p class="doc-error" id="docError-tender" hidden></p>
       </div>
     </div>
     <p class="modal-note">הקבצים נשמרים בדפדפן הזה בלבד (לא מועלים לשרת) — לצורך תצוגה מקדימה של מבנה האתר.</p>
@@ -633,6 +653,16 @@
     /* ---- documents modal ---- */
     var DOCS_KEY = 'kobiSonsDocsV1';
     var DOC_TYPES = ['boq', 'plans', 'tender'];
+    var DOC_ACCEPT_EXT = {
+      boq: ['.xls', '.xlsx'],
+      plans: ['.pdf'],
+      tender: ['.pdf']
+    };
+    var DOC_ACCEPT_LABEL = {
+      boq: 'קובץ Excel (.xls / .xlsx)',
+      plans: 'קובץ PDF',
+      tender: 'קובץ PDF'
+    };
     var docsBtn = document.getElementById('docsBtn');
     var docsModal = document.getElementById('docsModal');
     var docsModalClose = document.getElementById('docsModalClose');
@@ -665,6 +695,39 @@
         }
       });
     }
+    function getFileExt(name){
+      var idx = (name || '').lastIndexOf('.');
+      return idx >= 0 ? name.slice(idx).toLowerCase() : '';
+    }
+    function isFileAllowed(type, file){
+      var allowed = DOC_ACCEPT_EXT[type];
+      if(!allowed || !allowed.length){ return true; }
+      return allowed.indexOf(getFileExt(file.name)) !== -1;
+    }
+    function showDocError(type, message){
+      var errEl = document.getElementById('docError-' + type);
+      if(!errEl){ return; }
+      errEl.textContent = message || '';
+      errEl.hidden = !message;
+    }
+    function handleIncomingFiles(type, fileList){
+      var files = Array.prototype.slice.call(fileList || []);
+      if(!files.length){ return; }
+      var valid = files.filter(function(f){ return isFileAllowed(type, f); });
+      var rejected = files.length - valid.length;
+      if(rejected){
+        showDocError(type, 'ניתן להעלות ' + (DOC_ACCEPT_LABEL[type] || 'קובץ מתאים') + ' בלבד — ' + rejected + ' קובץ/קבצים נדחו.');
+      } else {
+        showDocError(type, '');
+      }
+      if(!valid.length){ return; }
+      var docs = loadDocs();
+      docs[type] = valid.map(function(f){
+        return { name: f.name, size: f.size };
+      });
+      saveDocs(docs);
+      renderDocs();
+    }
 
     document.querySelectorAll('.doc-upload-btn').forEach(function(btn){
       btn.addEventListener('click', function(){
@@ -676,13 +739,7 @@
     document.querySelectorAll('.doc-file-input').forEach(function(input){
       input.addEventListener('change', function(){
         var type = input.getAttribute('data-doc');
-        if(!input.files || !input.files.length){ return; }
-        var docs = loadDocs();
-        docs[type] = Array.prototype.slice.call(input.files).map(function(f){
-          return { name: f.name, size: f.size };
-        });
-        saveDocs(docs);
-        renderDocs();
+        handleIncomingFiles(type, input.files);
         input.value = '';
       });
     });
@@ -693,12 +750,41 @@
         delete docs[type];
         saveDocs(docs);
         renderDocs();
+        showDocError(type, '');
+      });
+    });
+
+    /* ---- drag & drop onto document cards ---- */
+    document.querySelectorAll('.doc-card').forEach(function(card){
+      var type = card.getAttribute('data-doc');
+      if(!type){ return; }
+      ['dragenter', 'dragover'].forEach(function(evtName){
+        card.addEventListener(evtName, function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          card.classList.add('drag-over');
+        });
+      });
+      ['dragleave', 'dragend'].forEach(function(evtName){
+        card.addEventListener(evtName, function(e){
+          e.preventDefault();
+          card.classList.remove('drag-over');
+        });
+      });
+      card.addEventListener('drop', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        card.classList.remove('drag-over');
+        if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
+          handleIncomingFiles(type, e.dataTransfer.files);
+        }
       });
     });
 
     function openDocsModal(){
       docsLastFocused = document.activeElement;
       renderDocs();
+      DOC_TYPES.forEach(function(type){ showDocError(type, ''); });
       docsModal.hidden = false;
       if(docsModalClose){ docsModalClose.focus(); }
     }
