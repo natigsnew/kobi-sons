@@ -72,22 +72,6 @@
   p{margin:0;}
   a{color:inherit;text-decoration:none;}
   img,svg{max-width:100%;display:block;}
-  .eyebrow{
-    display:inline-flex;
-    align-items:center;
-    gap:.5em;
-    font-size:0.88rem;
-    font-weight:700;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--accent-deep);
-  }
-  .eyebrow::before{
-    content:"";
-    width:22px;height:3px;
-    background:var(--accent);
-    display:inline-block;
-  }
 
   .wrap{
     max-width:1180px;
@@ -164,92 +148,9 @@
   .btn-logout:hover{
     box-shadow: 4px 4px 0 0 var(--accent);
   }
-  /* ---------- hero ---------- */
-  .hero{
-    padding-block:clamp(48px,7vw,88px);
-  }
-  .hero-grid{
-    display:grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap:clamp(28px,5vw,60px);
-    align-items:center;
-  }
-  .hero h1{
-    font-size:clamp(2.8rem,5.6vw,4.3rem);
-    line-height:1.12;
-    margin-block:14px 18px;
-  }
-  .hero h1 mark{
-    background:var(--accent);
-    color:var(--accent-ink);
-    padding-inline:.15em;
-    box-decoration-break:clone;
-    -webkit-box-decoration-break:clone;
-  }
-  .hero p.lead{
-    max-width:46ch;
-    color:var(--ink-muted);
-    font-size:1.2rem;
-  }
-  .hero-ctas{
-    display:flex; gap:16px; flex-wrap:wrap;
-    margin-top:30px;
-  }
-  .hero-art{
-    border:2px solid var(--line);
-    background:var(--surface);
-    box-shadow: 10px 10px 0 0 var(--accent);
-    padding:18px;
-  }
-
-  /* ---------- value strip ---------- */
-  .value-strip{
-    padding-block:8px 12px;
-  }
-  .value-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:clamp(16px,3vw,28px);
-  }
-  .value-card{
-    border:2px solid var(--line);
-    background:var(--surface);
-    box-shadow: 5px 5px 0 0 var(--accent);
-    padding:18px 16px;
-  }
-  .value-card .num{
-    font-family:'Suez One',serif;
-    font-size:1.85rem;
-    color:var(--accent-deep);
-    display:block;
-    margin-bottom:4px;
-  }
-  .value-card h3{
-    font-family:'Heebo',sans-serif;
-    font-weight:700;
-    font-size:1.15rem;
-    margin-bottom:6px;
-  }
-  .value-card p{
-    color:var(--ink-muted);
-    font-size:1.02rem;
-  }
 
   /* ---------- section shell ---------- */
-  section{ padding-block:clamp(56px,8vw,100px); }
-  .section-head{
-    max-width:60ch;
-    margin-bottom:clamp(32px,5vw,52px);
-  }
-  .section-head h2{
-    font-size:clamp(2.1rem,3.8vw,3rem);
-    margin-top:10px;
-  }
-  .section-head p{
-    color:var(--ink-muted);
-    margin-top:14px;
-    font-size:1.15rem;
-  }
+  section{ padding-block:clamp(40px,6vw,72px); }
   hr.rule{
     border:none; border-top:2px solid var(--line);
     margin:0;
@@ -351,12 +252,6 @@
     box-shadow: 7px 7px 0 0 var(--line);
   }
   .tab-panel[hidden]{ display:none; }
-  .panel-note{
-    color:var(--ink-muted);
-    font-size:1.1rem;
-    max-width:60ch;
-    margin-bottom:26px;
-  }
 
   /* ---------- rubric image modal ---------- */
   .modal-overlay{
@@ -409,63 +304,6 @@
     color:var(--ink-muted);
   }
 
-  /* ---------- contact ---------- */
-  .contact-shell{
-    border:2px solid var(--line);
-    background:var(--surface);
-    padding:clamp(28px,5vw,48px);
-    box-shadow: 10px 10px 0 0 var(--line-soft);
-    display:grid;
-    grid-template-columns:1.1fr 1fr;
-    gap:clamp(28px,4vw,50px);
-  }
-  .contact-shell h2{ font-size:clamp(1.95rem,3.4vw,2.5rem); }
-  .contact-shell > .copy p{ color:var(--ink-muted); margin-top:12px; max-width:44ch; }
-  .contact-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-top:26px; }
-  .info-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-    align-content:start;
-  }
-  .info-card{
-    border:2px solid var(--line);
-    background:var(--surface-2);
-    padding:14px 16px;
-    box-shadow: 4px 4px 0 0 var(--accent);
-  }
-  .info-card .label{
-    font-size:0.85rem;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    color:var(--accent-deep);
-    display:block;
-    margin-bottom:4px;
-  }
-  .info-card .value{
-    font-weight:500;
-    font-size:1.1rem;
-  }
-  .info-card a.value{ text-decoration:underline; text-underline-offset:3px; }
-
-  /* ---------- footer ---------- */
-  footer{
-    border-top:2px solid var(--line);
-    padding-block:28px;
-  }
-  .foot-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:16px;
-    flex-wrap:wrap;
-    font-size:0.98rem;
-    color:var(--ink-muted);
-  }
-  .foot-row .logo{ font-size:1.15rem; }
-  .foot-row .logo .mark{ width:28px;height:28px; font-size:0.8rem; }
-
   /* ---------- login gate ---------- */
   .gate-overlay{
     position:fixed; inset:0;
@@ -514,15 +352,10 @@
   }
 
   @media (max-width:920px){
-    .hero-grid{grid-template-columns:1fr;}
-    .hero-art{order:-1;}
-    .value-grid{grid-template-columns:repeat(2,1fr);}
     .rubric-grid{grid-template-columns:repeat(2,1fr);}
-    .contact-shell{grid-template-columns:1fr;}
   }
   @media (max-width:640px){
-    .value-grid, .rubric-grid{grid-template-columns:1fr;}
-    .info-grid{grid-template-columns:1fr;}
+    .rubric-grid{grid-template-columns:1fr;}
     .tab-btn{padding:12px 20px; font-size:0.98rem;}
   }
 
@@ -558,86 +391,10 @@
 
 <main id="top">
 
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="eyebrow">קבלן בניין ושיפוצים</span>
-        <h1>קובי ובניו — בונים על <mark>יסודות איתנים</mark></h1>
-        <p class="lead">מלווים פרויקטים מהתכנון הראשוני ועד למסירת המפתח — בנייה חדשה, שיפוצים ותוספות, בדייקנות של מהנדס ובאחריות אישית של בעל בית.</p>
-        <div class="hero-ctas">
-          <a href="tel:+972500000000" class="btn primary">לתיאום פגישת ייעוץ</a>
-          <a href="#rubrics" class="btn ghost">מעבר לתחומי העבודה</a>
-        </div>
-      </div>
-
-      <div class="hero-art">
-        <svg viewBox="0 0 480 360" role="img" aria-label="שרטוט קו של מנוף ובניין בהקמה">
-          <g fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="20" y1="320" x2="460" y2="320"></line>
-            <rect x="230" y="150" width="150" height="170"></rect>
-            <line x1="230" y1="185" x2="380" y2="185"></line>
-            <line x1="230" y1="220" x2="380" y2="220"></line>
-            <line x1="230" y1="255" x2="380" y2="255"></line>
-            <line x1="270" y1="150" x2="270" y2="320"></line>
-            <line x1="310" y1="150" x2="310" y2="320"></line>
-            <line x1="350" y1="150" x2="350" y2="320"></line>
-            <rect x="60" y="30" width="10" height="290"></rect>
-            <line x1="65" y1="45" x2="220" y2="70"></line>
-            <line x1="65" y1="45" x2="65" y2="110"></line>
-            <line x1="65" y1="70" x2="150" y2="88"></line>
-            <line x1="65" y1="30" x2="30" y2="70"></line>
-            <line x1="65" y1="60" x2="30" y2="70"></line>
-          </g>
-          <g fill="var(--accent)" stroke="var(--line)" stroke-width="2">
-            <rect x="210" y="66" width="18" height="14"></rect>
-            <circle cx="219" cy="90" r="4" fill="none"></circle>
-          </g>
-          <g fill="none" stroke="var(--line-soft)" stroke-width="1.5" stroke-dasharray="4 4">
-            <line x1="20" y1="150" x2="20" y2="320"></line>
-            <line x1="14" y1="150" x2="26" y2="150"></line>
-            <line x1="14" y1="320" x2="26" y2="320"></line>
-          </g>
-          <text x="30" y="238" fill="var(--ink-muted)" font-family="Heebo, sans-serif" font-size="12" transform="rotate(-90 30 238)">גובה מתוכנן</text>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <section class="value-strip">
-    <div class="wrap value-grid">
-      <div class="value-card">
-        <span class="num">01</span>
-        <h3>ליווי צמוד</h3>
-        <p>מהפגישה הראשונה ועד מסירת המפתח, איש קשר אחד לאורך כל הדרך.</p>
-      </div>
-      <div class="value-card">
-        <span class="num">02</span>
-        <h3>עמידה בלוחות זמנים</h3>
-        <p>תוכנית עבודה מסודרת לכל שלב, בלי הפתעות באמצע הפרויקט.</p>
-      </div>
-      <div class="value-card">
-        <span class="num">03</span>
-        <h3>שקיפות בתמחור</h3>
-        <p>הצעת מחיר מפורטת מראש, כולל חומרים ועבודה, בכתב וברור.</p>
-      </div>
-      <div class="value-card">
-        <span class="num">04</span>
-        <h3>אחריות על העבודה</h3>
-        <p>זמינים גם אחרי מסירת הפרויקט — לא נעלמים כשהעבודה נגמרת.</p>
-      </div>
-    </div>
-  </section>
-
   <hr class="rule">
 
   <section id="rubrics">
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">תחומי עבודה</span>
-        <h2>מה קורה בכל שלב בפרויקט</h2>
-        <p>לוחצים על התחום הרלוונטי, והרובריקות שלו נפתחות למטה.</p>
-      </div>
-
       <div class="tab-bar" role="tablist" aria-label="תחומי עבודה">
         <button type="button" class="tab-btn" role="tab" id="tab-pre-tender" data-tab="pre-tender" aria-selected="true" aria-controls="panel-pre-tender">פרה מכרז</button>
         <button type="button" class="tab-btn" role="tab" id="tab-exec-manager" data-tab="exec-manager" aria-selected="false" aria-controls="panel-exec-manager">מנהל ביצוע</button>
@@ -646,7 +403,6 @@
       </div>
 
       <div class="tab-panel" data-panel="pre-tender" id="panel-pre-tender" role="tabpanel" aria-labelledby="tab-pre-tender">
-        <p class="panel-note">איסוף נתונים, כתבי כמויות ותמחור ראשוני — הבסיס שעליו נבנית כל הצעת מחיר.</p>
         <div class="rubric-grid">
           <button type="button" class="rubric-card" data-name="השוואת מחיר כתב כמויות למחירונים"><span>השוואת מחיר כתב כמויות למחירונים</span></button>
           <button type="button" class="rubric-card" data-name="השוואת מחיר כתב כמויות לשוק"><span>השוואת מחיר כתב כמויות לשוק</span></button>
@@ -658,7 +414,6 @@
       </div>
 
       <div class="tab-panel" data-panel="exec-manager" id="panel-exec-manager" role="tabpanel" aria-labelledby="tab-exec-manager" hidden>
-        <p class="panel-note">תיאום קבלני המשנה, לוחות הזמנים ובטיחות האתר — מהיום הראשון ועד המסירה. (תוכן הרובריקות בהמשך — בינתיים שמות זמניים)</p>
         <div class="rubric-grid">
           <button type="button" class="rubric-card" data-name="ניהול לוחות זמנים"><span>ניהול לוחות זמנים</span></button>
           <button type="button" class="rubric-card" data-name="יומני עבודה"><span>יומני עבודה</span></button>
@@ -672,7 +427,6 @@
       </div>
 
       <div class="tab-panel" data-panel="exec-engineer" id="panel-exec-engineer" role="tabpanel" aria-labelledby="tab-exec-engineer" hidden>
-        <p class="panel-note">בדיקת תוכניות, פתרונות מקצועיים בשטח ועמידה בתקנים ההנדסיים. (תוכן הרובריקות בהמשך — בינתיים שמות זמניים)</p>
         <div class="rubric-grid">
           <button type="button" class="rubric-card" data-name="סנורלקס"><span>סנורלקס</span></button>
           <button type="button" class="rubric-card" data-name="גנגר"><span>גנגר</span></button>
@@ -684,7 +438,6 @@
       </div>
 
       <div class="tab-panel" data-panel="quality-control" id="panel-quality-control" role="tabpanel" aria-labelledby="tab-quality-control" hidden>
-        <p class="panel-note">מעקב שוטף אחר איכות הביצוע והחומרים, כדי שהתוצאה תעמוד בסטנדרט שסיכמנו. (תוכן הרובריקות בהמשך — בינתיים שמות זמניים)</p>
         <div class="rubric-grid">
           <button type="button" class="rubric-card" data-name="ריכוז אי התאמות בחריגה"><span>ריכוז אי התאמות בחריגה</span></button>
           <button type="button" class="rubric-card" data-name="אוניקס"><span>אוניקס</span></button>
@@ -697,50 +450,7 @@
     </div>
   </section>
 
-  <hr class="rule">
-
-  <section id="contact">
-    <div class="wrap">
-      <div class="contact-shell">
-        <div class="copy">
-          <span class="eyebrow">יצירת קשר</span>
-          <h2>בואו נדבר על הפרויקט הבא שלכם</h2>
-          <p>ספרו לנו מה אתם מתכננים — בנייה, שיפוץ או תוספת — ונחזור אליכם עם תיאום פגישה והערכה ראשונית.</p>
-          <div class="contact-actions">
-            <a href="tel:+972500000000" class="btn primary">התקשרו עכשיו</a>
-            <a href="https://wa.me/972500000000" target="_blank" rel="noopener" class="btn ghost">שלחו וואטסאפ</a>
-          </div>
-        </div>
-        <div class="info-grid">
-          <div class="info-card">
-            <span class="label">טלפון</span>
-            <a class="value" href="tel:+972500000000">050-000-0000</a>
-          </div>
-          <div class="info-card">
-            <span class="label">אימייל</span>
-            <a class="value" href="mailto:info@kobi-sons.co.il">info@kobi-sons.co.il</a>
-          </div>
-          <div class="info-card">
-            <span class="label">אזור פעילות</span>
-            <span class="value">מרכז הארץ והשפלה</span>
-          </div>
-          <div class="info-card">
-            <span class="label">שעות מענה</span>
-            <span class="value">א׳–ה׳, 08:00–18:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </main>
-
-<footer>
-  <div class="wrap foot-row">
-    <a href="#top" class="logo"><span class="mark">קב</span>קובי ובניו</a>
-    <span id="yearLine">© קובי ובניו — קבלן בניין ושיפוצים</span>
-  </div>
-</footer>
 
 <div class="modal-overlay" id="rubricModal" hidden>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="rubricModalName">
@@ -824,13 +534,6 @@
         startTab = hashTab;
       }
       activateTab(startTab);
-    }
-
-    /* ---- footer year ---- */
-    var y = document.getElementById('yearLine');
-    if(y){
-      var year = new Date().getFullYear();
-      y.textContent = '© ' + year + ' קובי ובניו — קבלן בניין ושיפוצים';
     }
 
     /* ---- placeholder rubric modal ---- */
