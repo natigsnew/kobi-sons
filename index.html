@@ -140,13 +140,18 @@
   .btn.ghost:hover{
     box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 0 var(--accent);
   }
-  .btn-logout{
+  .btn-logout, .btn-compact{
     padding:9px 18px;
     font-size:0.92rem;
     box-shadow:none;
   }
-  .btn-logout:hover{
+  .btn-logout:hover, .btn-compact:hover{
     box-shadow: 4px 4px 0 0 var(--accent);
+  }
+  .header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
   }
 
   /* ---------- section shell ---------- */
@@ -310,6 +315,57 @@
     color:var(--ink-muted);
   }
 
+  /* ---------- documents modal ---------- */
+  .docs-box{
+    max-width:760px;
+    text-align:center;
+  }
+  .docs-box h2{ margin-bottom:22px; }
+  .docs-grid{
+    grid-template-columns:repeat(3,1fr);
+    text-align:center;
+  }
+  .doc-card{
+    border:2px solid var(--line);
+    background:var(--surface);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
+    padding:22px 16px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    min-height:110px;
+  }
+  .doc-card h3{
+    font-family:'Heebo',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+  }
+  .doc-filename{
+    font-size:0.82rem;
+    color:var(--ink-muted);
+    word-break:break-word;
+    max-width:100%;
+  }
+  .doc-filename.has-file{
+    color:var(--accent-deep);
+    font-weight:700;
+  }
+  .doc-upload-btn{
+    padding:9px 18px;
+    font-size:0.92rem;
+  }
+  .doc-remove-btn{
+    background:none;
+    border:none;
+    color:#c0392b;
+    font-size:0.78rem;
+    cursor:pointer;
+    text-decoration:underline;
+    padding:0;
+    font:inherit;
+  }
+
   /* ---------- login gate ---------- */
   .gate-overlay{
     position:fixed; inset:0;
@@ -401,7 +457,10 @@
 <header>
   <div class="wrap nav-row">
     <a href="#top" class="logo"><span class="mark">קב</span>קובי ובניו</a>
-    <button type="button" class="btn ghost btn-logout" id="logoutBtn" title="יציאה מהמשתמש הנוכחי">יציאה</button>
+    <div class="header-actions">
+      <button type="button" class="btn ghost btn-compact" id="docsBtn" title="ניהול מסמכי החברה">מסמכים</button>
+      <button type="button" class="btn ghost btn-logout" id="logoutBtn" title="יציאה מהמשתמש הנוכחי">יציאה</button>
+    </div>
   </div>
 </header>
 
@@ -496,6 +555,37 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="docsModal" hidden>
+  <div class="modal-box docs-box" role="dialog" aria-modal="true" aria-labelledby="docsModalTitle">
+    <button type="button" class="modal-close" id="docsModalClose" aria-label="סגירה">✕</button>
+    <h2 id="docsModalTitle">מסמכים</h2>
+    <div class="rubric-grid docs-grid">
+      <div class="doc-card">
+        <h3>כתב כמויות</h3>
+        <p class="doc-filename" id="docName-boq" data-empty="לא הועלה קובץ">לא הועלה קובץ</p>
+        <button type="button" class="btn ghost doc-upload-btn" data-doc="boq">בחירת קובץ</button>
+        <button type="button" class="doc-remove-btn" data-doc="boq" id="docRemove-boq" hidden>הסרת קובץ</button>
+        <input type="file" id="docFile-boq" class="doc-file-input" data-doc="boq" hidden multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.csv">
+      </div>
+      <div class="doc-card">
+        <h3>תוכניות</h3>
+        <p class="doc-filename" id="docName-plans" data-empty="לא הועלו תוכניות" data-empty-plural="לא הועלו תוכניות">לא הועלו תוכניות</p>
+        <button type="button" class="btn ghost doc-upload-btn" data-doc="plans">בחירת קבצים</button>
+        <button type="button" class="doc-remove-btn" data-doc="plans" id="docRemove-plans" hidden>הסרת קבצים</button>
+        <input type="file" id="docFile-plans" class="doc-file-input" data-doc="plans" hidden multiple accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png">
+      </div>
+      <div class="doc-card">
+        <h3>מסמכי מכרז</h3>
+        <p class="doc-filename" id="docName-tender" data-empty="לא הועלו מסמכים" data-empty-plural="לא הועלו מסמכים">לא הועלו מסמכים</p>
+        <button type="button" class="btn ghost doc-upload-btn" data-doc="tender">בחירת קבצים</button>
+        <button type="button" class="doc-remove-btn" data-doc="tender" id="docRemove-tender" hidden>הסרת קבצים</button>
+        <input type="file" id="docFile-tender" class="doc-file-input" data-doc="tender" hidden multiple accept=".pdf,.doc,.docx,.xls,.xlsx">
+      </div>
+    </div>
+    <p class="modal-note">הקבצים נשמרים בדפדפן הזה בלבד (לא מועלים לשרת) — לצורך תצוגה מקדימה של מבנה האתר.</p>
+  </div>
+</div>
+
 <script>
   (function(){
     /* ---- login gate ---- */
@@ -539,6 +629,95 @@
         if(gateUser){ gateUser.focus(); }
       });
     }
+
+    /* ---- documents modal ---- */
+    var DOCS_KEY = 'kobiSonsDocsV1';
+    var DOC_TYPES = ['boq', 'plans', 'tender'];
+    var docsBtn = document.getElementById('docsBtn');
+    var docsModal = document.getElementById('docsModal');
+    var docsModalClose = document.getElementById('docsModalClose');
+    var docsLastFocused = null;
+
+    function loadDocs(){
+      try{
+        var raw = localStorage.getItem(DOCS_KEY);
+        return raw ? JSON.parse(raw) : {};
+      }catch(e){ return {}; }
+    }
+    function saveDocs(docs){
+      try{ localStorage.setItem(DOCS_KEY, JSON.stringify(docs)); }catch(e){}
+    }
+    function renderDocs(){
+      var docs = loadDocs();
+      DOC_TYPES.forEach(function(type){
+        var files = docs[type] || [];
+        var nameEl = document.getElementById('docName-' + type);
+        var removeBtn = document.getElementById('docRemove-' + type);
+        if(!nameEl) return;
+        if(files.length){
+          nameEl.textContent = files.map(function(f){ return f.name; }).join('، ');
+          nameEl.classList.add('has-file');
+          if(removeBtn){ removeBtn.hidden = false; }
+        } else {
+          nameEl.textContent = nameEl.getAttribute('data-empty') || '';
+          nameEl.classList.remove('has-file');
+          if(removeBtn){ removeBtn.hidden = true; }
+        }
+      });
+    }
+
+    document.querySelectorAll('.doc-upload-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var type = btn.getAttribute('data-doc');
+        var input = document.getElementById('docFile-' + type);
+        if(input){ input.click(); }
+      });
+    });
+    document.querySelectorAll('.doc-file-input').forEach(function(input){
+      input.addEventListener('change', function(){
+        var type = input.getAttribute('data-doc');
+        if(!input.files || !input.files.length){ return; }
+        var docs = loadDocs();
+        docs[type] = Array.prototype.slice.call(input.files).map(function(f){
+          return { name: f.name, size: f.size };
+        });
+        saveDocs(docs);
+        renderDocs();
+        input.value = '';
+      });
+    });
+    document.querySelectorAll('.doc-remove-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var type = btn.getAttribute('data-doc');
+        var docs = loadDocs();
+        delete docs[type];
+        saveDocs(docs);
+        renderDocs();
+      });
+    });
+
+    function openDocsModal(){
+      docsLastFocused = document.activeElement;
+      renderDocs();
+      docsModal.hidden = false;
+      if(docsModalClose){ docsModalClose.focus(); }
+    }
+    function closeDocsModal(){
+      docsModal.hidden = true;
+      if(docsLastFocused && docsLastFocused.focus){ docsLastFocused.focus(); }
+    }
+    if(docsBtn && docsModal){
+      docsBtn.addEventListener('click', openDocsModal);
+    }
+    if(docsModalClose){ docsModalClose.addEventListener('click', closeDocsModal); }
+    if(docsModal){
+      docsModal.addEventListener('click', function(e){
+        if(e.target === docsModal){ closeDocsModal(); }
+      });
+    }
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && docsModal && !docsModal.hidden){ closeDocsModal(); }
+    });
 
     /* ---- work-area tabs ---- */
     var tabButtons = Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
