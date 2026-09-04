@@ -435,6 +435,35 @@
     font-size:0.88rem;
     margin-top:12px;
   }
+  .gate-box[hidden]{ display:none; }
+  .admin-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:1001;
+    padding:9px 16px;
+    font-size:0.8rem;
+    letter-spacing:0.06em;
+  }
+  .admin-back-btn{
+    display:block;
+    background:none;
+    border:none;
+    color:var(--ink-muted);
+    font-size:0.82rem;
+    text-decoration:underline;
+    cursor:pointer;
+    padding:0;
+    margin:14px auto 0;
+    font:inherit;
+  }
+  .admin-panel-box{
+    max-width:420px;
+    position:relative;
+  }
+  .admin-panel-box .doc-card{
+    margin-top:18px;
+  }
 
   @media (max-width:920px){
     .rubric-grid{grid-template-columns:repeat(2,1fr);}
@@ -454,6 +483,8 @@
 <body>
 
 <div class="gate-overlay" id="gateOverlay">
+  <button type="button" class="btn ghost admin-btn" id="adminBtn" title="כניסת מנהל">ADMIN</button>
+
   <form class="gate-box" id="gateForm">
     <div class="logo"><span class="mark">קב</span>קובי ובניו</div>
     <h2>כניסה לאתר</h2>
@@ -466,6 +497,36 @@
     <button type="submit" class="btn primary" style="width:100%; justify-content:center; margin-top:18px;">כניסה</button>
     <p id="gateError" class="gate-error" hidden>שם המשתמש או הסיסמה שגויים.</p>
   </form>
+
+  <form class="gate-box" id="adminGateForm" hidden>
+    <div class="logo"><span class="mark">קב</span>קובי ובניו</div>
+    <h2>כניסת מנהל</h2>
+    <p class="gate-sub">אזור ניהול — נא להזין שם משתמש וסיסמת מנהל</p>
+    <label class="gate-label" for="adminUser">שם משתמש</label>
+    <input type="text" id="adminUser" class="gate-input" autocomplete="username" required>
+    <label class="gate-label" for="adminPass">סיסמה</label>
+    <input type="password" id="adminPass" class="gate-input" autocomplete="current-password" required>
+    <button type="submit" class="btn primary" style="width:100%; justify-content:center; margin-top:18px;">כניסה</button>
+    <p id="adminGateError" class="gate-error" hidden>שם המשתמש או הסיסמה שגויים.</p>
+    <button type="button" class="admin-back-btn" id="adminGateBack">חזרה למסך הכניסה הרגיל</button>
+  </form>
+
+  <div class="gate-box admin-panel-box" id="adminPanel" hidden>
+    <button type="button" class="modal-close" id="adminPanelClose" aria-label="סגירה">✕</button>
+    <div class="logo"><span class="mark">קב</span>קובי ובניו</div>
+    <h2>פאנל ניהול</h2>
+    <p class="gate-sub">בינתיים אפשר להעלות כאן מחירונים</p>
+    <div class="doc-card" data-doc="pricelists">
+      <h3>מחירונים</h3>
+      <p class="doc-hint">גררו לכאן קבצים, או</p>
+      <button type="button" class="btn ghost doc-upload-btn" data-doc="pricelists">בחירת קבצים</button>
+      <input type="file" id="docFile-pricelists" class="doc-file-input" data-doc="pricelists" hidden multiple accept=".xls,.xlsx,.pdf">
+      <p class="doc-filename" id="docName-pricelists" data-empty="לא הועלו מחירונים">לא הועלו מחירונים</p>
+      <button type="button" class="doc-remove-btn" data-doc="pricelists" id="docRemove-pricelists" hidden>הסרת קבצים</button>
+      <p class="doc-error" id="docError-pricelists" hidden></p>
+    </div>
+    <p class="modal-note" style="margin-top:16px;">הקבצים נשמרים בדפדפן הזה בלבד (לא מועלים לשרת) — לצורך תצוגה מקדימה של מבנה האתר.</p>
+  </div>
 </div>
 
 <header>
@@ -509,9 +570,7 @@
         <div class="rubric-grid">
           <button type="button" class="rubric-card" data-name="ניהול לוחות זמנים"><span>ניהול לוחות זמנים</span></button>
           <button type="button" class="rubric-card" data-name="יומני עבודה"><span>יומני עבודה</span></button>
-          <a class="rubric-card rubric-card--action" href="bidfinel-agent2:run" title="מפעיל את AGENT2 במחשב שלך (דורש הגדרה חד-פעמית)">
-            <span>ניסן<br><small>▶ הפעלת AGENT2</small></span>
-          </a>
+          <button type="button" class="rubric-card" data-name="ניסן"><span>ניסן</span></button>
           <button type="button" class="rubric-card" data-name="וורטורטל"><span>וורטורטל</span></button>
           <button type="button" class="rubric-card" data-name="בלסטויז"><span>בלסטויז</span></button>
           <button type="button" class="rubric-card" data-name="איווי"><span>איווי</span></button>
@@ -539,7 +598,7 @@
         <div class="rubric-grid">
           <button type="button" class="rubric-card" data-name="ריכוז אי התאמות בחריגה"><span>ריכוז אי התאמות בחריגה</span></button>
           <button type="button" class="rubric-card" data-name="אוניקס"><span>אוניקס</span></button>
-          <button type="button" class="rubric-card" data-name="מאצ'ופ"><span>מאצ'ופ</span></button>
+          <button type="button" class="rubric-card" data-name="מאצ'וף"><span>מאצ'וף</span></button>
           <button type="button" class="rubric-card" data-name="גולבט"><span>גולבט</span></button>
           <button type="button" class="rubric-card" data-name="אלקזאם"><span>אלקזאם</span></button>
           <button type="button" class="rubric-card" data-name="דיטו"><span>דיטו</span></button>
@@ -565,7 +624,7 @@
     </div>
     <img class="modal-image" id="modalImage" alt="" hidden>
     <p class="modal-caption" id="modalCaption">תמונה של <strong id="rubricModalName">—</strong> תופיע כאן</p>
-    <p class="modal-note" id="modalNote">זהו מציין מקום זמני בלבד — כשהתוכן הסופי של הרובריקה ייקבע, התמונה האמיתית תוחלף כאן.</p>
+    <p class="modal-note" id="modalNote">זהו מציין מקום זמני בלבד — כשהתוכן הסופי של הרוברייקה ייקבע, התמונה האמיתית תופלף כאן.</p>
   </div>
 </div>
 
@@ -617,6 +676,21 @@
     var gateUser = document.getElementById('gateUser');
     var gatePass = document.getElementById('gatePass');
     var gateError = document.getElementById('gateError');
+    var adminBtn = document.getElementById('adminBtn');
+    var adminGateForm = document.getElementById('adminGateForm');
+    var adminUser = document.getElementById('adminUser');
+    var adminPass = document.getElementById('adminPass');
+    var adminGateError = document.getElementById('adminGateError');
+    var adminGateBack = document.getElementById('adminGateBack');
+    var adminPanel = document.getElementById('adminPanel');
+    var adminPanelClose = document.getElementById('adminPanelClose');
+
+    function showGateView(view){
+      if(gateForm){ gateForm.hidden = view !== 'login'; }
+      if(adminBtn){ adminBtn.hidden = view !== 'login'; }
+      if(adminGateForm){ adminGateForm.hidden = view !== 'adminLogin'; }
+      if(adminPanel){ adminPanel.hidden = view !== 'adminPanel'; }
+    }
 
     function unlockGate(){
       if(gateOverlay){ gateOverlay.hidden = true; }
@@ -645,23 +719,62 @@
         try{ localStorage.removeItem(GATE_KEY); }catch(e){}
         if(gateForm){ gateForm.reset(); }
         if(gateError){ gateError.hidden = true; }
+        showGateView('login');
         gateOverlay.hidden = false;
+        if(gateUser){ gateUser.focus(); }
+      });
+    }
+
+    /* ---- admin login / panel ---- */
+    var ADMIN_USER = 'ADMIN';
+    var ADMIN_PASS = 'ADMIN';
+    if(adminBtn){
+      adminBtn.addEventListener('click', function(){
+        if(adminGateForm){ adminGateForm.reset(); }
+        if(adminGateError){ adminGateError.hidden = true; }
+        showGateView('adminLogin');
+        if(adminUser){ adminUser.focus(); }
+      });
+    }
+    if(adminGateBack){
+      adminGateBack.addEventListener('click', function(){
+        showGateView('login');
+        if(gateUser){ gateUser.focus(); }
+      });
+    }
+    if(adminGateForm){
+      adminGateForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(adminUser.value.trim() === ADMIN_USER && adminPass.value === ADMIN_PASS){
+          if(adminGateError){ adminGateError.hidden = true; }
+          renderDocs();
+          showGateView('adminPanel');
+        } else {
+          adminGateError.hidden = false;
+        }
+      });
+    }
+    if(adminPanelClose){
+      adminPanelClose.addEventListener('click', function(){
+        showGateView('login');
         if(gateUser){ gateUser.focus(); }
       });
     }
 
     /* ---- documents modal ---- */
     var DOCS_KEY = 'kobiSonsDocsV1';
-    var DOC_TYPES = ['boq', 'plans', 'tender'];
+    var DOC_TYPES = ['boq', 'plans', 'tender', 'pricelists'];
     var DOC_ACCEPT_EXT = {
       boq: ['.xls', '.xlsx'],
       plans: ['.pdf'],
-      tender: ['.pdf']
+      tender: ['.pdf'],
+      pricelists: []
     };
     var DOC_ACCEPT_LABEL = {
       boq: 'קובץ Excel (.xls / .xlsx)',
       plans: 'קובץ PDF',
-      tender: 'קובץ PDF'
+      tender: 'קובץ PDF',
+      pricelists: 'קובץ מתאים'
     };
     var docsBtn = document.getElementById('docsBtn');
     var docsModal = document.getElementById('docsModal');
