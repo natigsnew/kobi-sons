@@ -8,44 +8,44 @@
   :root{
     --bg:#f2f4f7;
     --surface:#ffffff;
-    --surface-2:#e4eaf1;
-    --ink:#0f3a63;
-    --ink-muted:#4f6c88;
-    --accent:#e8720c;
-    --accent-deep:#b5590a;
-    --accent-ink:#0f3a63;
-    --line:#0f3a63;
-    --line-soft:#c3d2e0;
-    --grid: rgba(15,58,99,0.08);
+    --surface-2:#e7ebf3;
+    --ink:#0a0a0c;
+    --ink-muted:#53565c;
+    --accent:#1450c4;
+    --accent-deep:#0d3a94;
+    --accent-ink:#ffffff;
+    --line:#0a0a0c;
+    --line-soft:#c6cedd;
+    --grid: rgba(10,10,12,0.07);
     --shadow-offset: 7px;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0d1826;
-      --surface:#152435;
-      --surface-2:#1b2c40;
-      --ink:#eaf1f9;
-      --ink-muted:#9fb4c9;
-      --accent:#ff8b30;
-      --accent-deep:#e07321;
-      --accent-ink:#0d1826;
-      --line:#eaf1f9;
-      --line-soft:#2e415a;
-      --grid: rgba(234,241,249,0.07);
+      --bg:#0a0c10;
+      --surface:#15181f;
+      --surface-2:#1c2029;
+      --ink:#f2f3f5;
+      --ink-muted:#a7acb8;
+      --accent:#4d8dff;
+      --accent-deep:#2f6fed;
+      --accent-ink:#0a0c10;
+      --line:#f2f3f5;
+      --line-soft:#2b3140;
+      --grid: rgba(242,243,245,0.07);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0d1826;
-    --surface:#152435;
-    --surface-2:#1b2c40;
-    --ink:#eaf1f9;
-    --ink-muted:#9fb4c9;
-    --accent:#ff8b30;
-    --accent-deep:#e07321;
-    --accent-ink:#0d1826;
-    --line:#eaf1f9;
-    --line-soft:#2e415a;
-    --grid: rgba(234,241,249,0.07);
+    --bg:#0a0c10;
+    --surface:#15181f;
+    --surface-2:#1c2029;
+    --ink:#f2f3f5;
+    --ink-muted:#a7acb8;
+    --accent:#4d8dff;
+    --accent-deep:#2f6fed;
+    --accent-ink:#0a0c10;
+    --line:#f2f3f5;
+    --line-soft:#2b3140;
+    --grid: rgba(242,243,245,0.07);
   }
 
   *{box-sizing:border-box;}
@@ -289,6 +289,12 @@
     margin-bottom:18px;
     color:var(--ink-muted);
   }
+  .modal-image{
+    display:block;
+    max-width:160px;
+    max-height:160px;
+    margin:0 auto 18px;
+  }
   .modal-caption{
     font-size:1.15rem;
     font-weight:500;
@@ -396,10 +402,10 @@
   <section id="rubrics">
     <div class="wrap">
       <div class="tab-bar" role="tablist" aria-label="תחומי עבודה">
-        <button type="button" class="tab-btn" role="tab" id="tab-pre-tender" data-tab="pre-tender" aria-selected="true" aria-controls="panel-pre-tender">פרה מכרז</button>
-        <button type="button" class="tab-btn" role="tab" id="tab-exec-manager" data-tab="exec-manager" aria-selected="false" aria-controls="panel-exec-manager">מנהל ביצוע</button>
-        <button type="button" class="tab-btn" role="tab" id="tab-exec-engineer" data-tab="exec-engineer" aria-selected="false" aria-controls="panel-exec-engineer">מהנדס ביצוע</button>
-        <button type="button" class="tab-btn" role="tab" id="tab-quality-control" data-tab="quality-control" aria-selected="false" aria-controls="panel-quality-control">בקרת איכות</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-pre-tender" data-tab="pre-tender" aria-selected="true" aria-controls="panel-pre-tender">מחלקת מכרזים</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-exec-manager" data-tab="exec-manager" aria-selected="false" aria-controls="panel-exec-manager">ביצוע קבלן</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-exec-engineer" data-tab="exec-engineer" aria-selected="false" aria-controls="panel-exec-engineer">רכש</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-quality-control" data-tab="quality-control" aria-selected="false" aria-controls="panel-quality-control">בקרה/הבטחת איכות</button>
       </div>
 
       <div class="tab-panel" data-panel="pre-tender" id="panel-pre-tender" role="tabpanel" aria-labelledby="tab-pre-tender">
@@ -410,6 +416,9 @@
           <button type="button" class="rubric-card" data-name="חישוב עלות התארגנות לפי מסמכי מכרז"><span>חישוב עלות התארגנות לפי מסמכי מכרז</span></button>
           <button type="button" class="rubric-card" data-name="חישוב עלות תקורות לפי מסמכי מכרז"><span>חישוב עלות תקורות לפי מסמכי מכרז</span></button>
           <button type="button" class="rubric-card" data-name="חישוב דרכי גישה לאתר"><span>חישוב דרכי גישה לאתר</span></button>
+          <button type="button" class="rubric-card" data-name="פיקאצ'ו"><span>פיקאצ'ו</span></button>
+          <button type="button" class="rubric-card" data-name="בולבזאור"><span>בולבזאור</span></button>
+          <button type="button" class="rubric-card" data-name="צ'רמנדר"><span>צ'רמנדר</span></button>
         </div>
       </div>
 
@@ -423,6 +432,9 @@
           <button type="button" class="rubric-card" data-name="וורטורטל"><span>וורטורטל</span></button>
           <button type="button" class="rubric-card" data-name="בלסטויז"><span>בלסטויז</span></button>
           <button type="button" class="rubric-card" data-name="איווי"><span>איווי</span></button>
+          <button type="button" class="rubric-card" data-name="סקוורטל"><span>סקוורטל</span></button>
+          <button type="button" class="rubric-card" data-name="ג'יגליפאף"><span>ג'יגליפאף</span></button>
+          <button type="button" class="rubric-card" data-name="פסידאק"><span>פסידאק</span></button>
         </div>
       </div>
 
@@ -434,6 +446,9 @@
           <button type="button" class="rubric-card" data-name="מיו"><span>מיו</span></button>
           <button type="button" class="rubric-card" data-name="דראגונייט"><span>דראגונייט</span></button>
           <button type="button" class="rubric-card" data-name="לוגיה"><span>לוגיה</span></button>
+          <button type="button" class="rubric-card" data-name="מיאות'"><span>מיאות'</span></button>
+          <button type="button" class="rubric-card" data-name="מג'יקרפ"><span>מג'יקרפ</span></button>
+          <button type="button" class="rubric-card" data-name="קיובון"><span>קיובון</span></button>
         </div>
       </div>
 
@@ -445,6 +460,9 @@
           <button type="button" class="rubric-card" data-name="גולבט"><span>גולבט</span></button>
           <button type="button" class="rubric-card" data-name="אלקזאם"><span>אלקזאם</span></button>
           <button type="button" class="rubric-card" data-name="דיטו"><span>דיטו</span></button>
+          <button type="button" class="rubric-card" data-name="גאסטלי"><span>גאסטלי</span></button>
+          <button type="button" class="rubric-card" data-name="וולטורב"><span>וולטורב</span></button>
+          <button type="button" class="rubric-card" data-name="גיאודוד"><span>גיאודוד</span></button>
         </div>
       </div>
     </div>
@@ -455,15 +473,16 @@
 <div class="modal-overlay" id="rubricModal" hidden>
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="rubricModalName">
     <button type="button" class="modal-close" id="rubricModalClose" aria-label="סגירה">✕</button>
-    <div class="modal-art">
+    <div class="modal-art" id="modalArt">
       <svg width="120" height="90" viewBox="0 0 120 90" aria-hidden="true">
         <rect x="2" y="2" width="116" height="86" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 5"></rect>
         <circle cx="32" cy="32" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
         <path d="M8 74 L38 46 L58 64 L80 40 L112 74" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
       </svg>
     </div>
-    <p class="modal-caption">תמונה של <strong id="rubricModalName">—</strong> תופיע כאן</p>
-    <p class="modal-note">זהו מציין מקום זמני בלבד — כשהתוכן הסופי של הרובריקה ייקבע, התמונה האמיתית תוחלף כאן.</p>
+    <img class="modal-image" id="modalImage" alt="" hidden>
+    <p class="modal-caption" id="modalCaption">תמונה של <strong id="rubricModalName">—</strong> תופיע כאן</p>
+    <p class="modal-note" id="modalNote">זהו מציין מקום זמני בלבד — כשהתוכן הסופי של הרובריקה ייקבע, התמונה האמיתית תוחלף כאן.</p>
   </div>
 </div>
 
@@ -536,17 +555,43 @@
       activateTab(startTab);
     }
 
-    /* ---- placeholder rubric modal ---- */
+    /* ---- rubric modal (tries a real image from PIC/, falls back to placeholder) ---- */
     var modal = document.getElementById('rubricModal');
     var modalName = document.getElementById('rubricModalName');
     var modalClose = document.getElementById('rubricModalClose');
+    var modalArt = document.getElementById('modalArt');
+    var modalImage = document.getElementById('modalImage');
+    var modalCaption = document.getElementById('modalCaption');
+    var modalNote = document.getElementById('modalNote');
     var lastFocused = null;
+
+    function showPlaceholder(name){
+      modalImage.hidden = true;
+      modalImage.removeAttribute('src');
+      modalArt.hidden = false;
+      modalCaption.hidden = false;
+      modalNote.hidden = false;
+    }
+    function showImage(name, src){
+      modalArt.hidden = true;
+      modalCaption.hidden = true;
+      modalNote.hidden = true;
+      modalImage.alt = name;
+      modalImage.src = src;
+      modalImage.hidden = false;
+    }
 
     function openModal(name){
       lastFocused = document.activeElement;
       modalName.textContent = name;
+      showPlaceholder(name);
       modal.hidden = false;
       modalClose.focus();
+
+      var probe = new Image();
+      probe.onload = function(){ showImage(name, probe.src); };
+      probe.onerror = function(){ showPlaceholder(name); };
+      probe.src = 'PIC/' + encodeURIComponent(name) + '.svg';
     }
     function closeModal(){
       modal.hidden = true;
