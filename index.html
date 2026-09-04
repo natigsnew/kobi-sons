@@ -173,6 +173,14 @@
   .btn.ghost:hover{
     box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 0 var(--accent);
   }
+  .btn-logout{
+    padding:9px 18px;
+    font-size:0.92rem;
+    box-shadow:none;
+  }
+  .btn-logout:hover{
+    box-shadow: 4px 4px 0 0 var(--accent);
+  }
   .menu-toggle{
     display:none;
     border:2px solid var(--line);
@@ -552,6 +560,7 @@
       <a href="#contact">יצירת קשר</a>
     </nav>
     <div style="display:flex; align-items:center; gap:12px;">
+      <button type="button" class="btn ghost btn-logout" id="logoutBtn" title="יציאה מהמשתמש הנוכחי">יציאה</button>
       <a href="#contact" class="btn primary">לתיאום פגישה</a>
       <button class="menu-toggle" id="menuToggle" aria-label="פתיחת תפריט" aria-expanded="false"><span></span></button>
     </div>
@@ -805,6 +814,18 @@
         } else {
           gateError.hidden = false;
         }
+      });
+    }
+
+    /* ---- logout / switch user ---- */
+    var logoutBtn = document.getElementById('logoutBtn');
+    if(logoutBtn && gateOverlay){
+      logoutBtn.addEventListener('click', function(){
+        try{ localStorage.removeItem(GATE_KEY); }catch(e){}
+        if(gateForm){ gateForm.reset(); }
+        if(gateError){ gateError.hidden = true; }
+        gateOverlay.hidden = false;
+        if(gateUser){ gateUser.focus(); }
       });
     }
 
