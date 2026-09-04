@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>קובי ובניו</title>
+<style>
+  :root{
+    --bg:#f2f4f7;
+    --surface:#ffffff;
+    --surface-2:#e4eaf1;
+    --ink:#0f3a63;
+    --ink-muted:#4f6c88;
+    --accent:#e8720c;
+    --accent-deep:#b5590a;
+    --accent-ink:#0f3a63;
+    --line:#0f3a63;
+    --line-soft:#c3d2e0;
+    --grid: rgba(15,58,99,0.08);
+    --shadow-offset: 7px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0d1826;
+      --surface:#152435;
+      --surface-2:#1b2c40;
+      --ink:#eaf1f9;
+      --ink-muted:#9fb4c9;
+      --accent:#ff8b30;
+      --accent-deep:#e07321;
+      --accent-ink:#0d1826;
+      --line:#eaf1f9;
+      --line-soft:#2e415a;
+      --grid: rgba(234,241,249,0.07);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1826;
+    --surface:#152435;
+    --surface-2:#1b2c40;
+    --ink:#eaf1f9;
+    --ink-muted:#9fb4c9;
+    --accent:#ff8b30;
+    --accent-deep:#e07321;
+    --accent-ink:#0d1826;
+    --line:#eaf1f9;
+    --line-soft:#2e415a;
+    --grid: rgba(234,241,249,0.07);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{
+    direction:rtl;
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Heebo', 'Segoe UI', Arial, sans-serif;
+    font-size:18px;
+    line-height:1.6;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+  h1,h2,h3{
+    font-family:'Suez One','Heebo',serif;
+    font-weight:400;
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:0.2px;
+  }
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{max-width:100%;display:block;}
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:.5em;
+    font-size:0.88rem;
+    font-weight:700;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:3px;
+    background:var(--accent);
+    display:inline-block;
+  }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding-inline:clamp(20px,4vw,48px);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--bg);
+    border-bottom:2px solid var(--line);
+  }
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    padding-block:16px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Suez One','Heebo',serif;
+    font-size:1.5rem;
+  }
+  .logo .mark{
+    width:38px;height:38px;
+    border:2.5px solid var(--line);
+    background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Heebo',sans-serif;
+    font-weight:900;
+    color:var(--accent-ink);
+    flex:none;
+  }
+  nav.links{
+    display:flex;
+    gap:28px;
+    font-weight:500;
+  }
+  nav.links a{
+    position:relative;
+    padding-block:4px;
+  }
+  nav.links a::after{
+    content:"";
+    position:absolute; right:0; left:0; bottom:-2px;
+    height:2px; background:var(--accent);
+    transform:scaleX(0); transform-origin:right;
+    transition:transform .18s ease;
+  }
+  nav.links a:hover::after{transform:scaleX(1);}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border:2px solid var(--line);
+    padding:13px 26px;
+    font-weight:700;
+    font-size:1.08rem;
+    white-space:nowrap;
+    cursor:pointer;
+    background:var(--surface);
+    color:var(--ink);
+    transition:transform .15s ease;
+  }
+  .btn:hover{transform:translate(-2px,-2px);}
+  .btn.primary{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border-color:var(--line);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--line);
+  }
+  .btn.primary:hover{
+    box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 0 var(--line);
+  }
+  .btn.ghost{
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
+  }
+  .btn.ghost:hover{
+    box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 0 var(--accent);
+  }
+  .menu-toggle{
+    display:none;
+    border:2px solid var(--line);
+    background:var(--surface);
+    width:42px;height:38px;
+    align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .menu-toggle span, .menu-toggle span::before, .menu-toggle span::after{
+    content:"";
+    display:block;
+    width:20px;height:2px;
+    background:var(--ink);
+    position:relative;
+  }
+  .menu-toggle span::before{position:absolute; top:-6px;}
+  .menu-toggle span::after{position:absolute; top:6px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding-block:clamp(48px,7vw,88px);
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap:clamp(28px,5vw,60px);
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.8rem,5.6vw,4.3rem);
+    line-height:1.12;
+    margin-block:14px 18px;
+  }
+  .hero h1 mark{
+    background:var(--accent);
+    color:var(--accent-ink);
+    padding-inline:.15em;
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
+  }
+  .hero p.lead{
+    max-width:46ch;
+    color:var(--ink-muted);
+    font-size:1.2rem;
+  }
+  .hero-ctas{
+    display:flex; gap:16px; flex-wrap:wrap;
+    margin-top:30px;
+  }
+  .hero-art{
+    border:2px solid var(--line);
+    background:var(--surface);
+    box-shadow: 10px 10px 0 0 var(--accent);
+    padding:18px;
+  }
+
+  /* ---------- value strip ---------- */
+  .value-strip{
+    padding-block:8px 12px;
+  }
+  .value-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:clamp(16px,3vw,28px);
+  }
+  .value-card{
+    border:2px solid var(--line);
+    background:var(--surface);
+    box-shadow: 5px 5px 0 0 var(--accent);
+    padding:18px 16px;
+  }
+  .value-card .num{
+    font-family:'Suez One',serif;
+    font-size:1.85rem;
+    color:var(--accent-deep);
+    display:block;
+    margin-bottom:4px;
+  }
+  .value-card h3{
+    font-family:'Heebo',sans-serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:6px;
+  }
+  .value-card p{
+    color:var(--ink-muted);
+    font-size:1.02rem;
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding-block:clamp(56px,8vw,100px); }
+  .section-head{
+    max-width:60ch;
+    margin-bottom:clamp(32px,5vw,52px);
+  }
+  .section-head h2{
+    font-size:clamp(2.1rem,3.8vw,3rem);
+    margin-top:10px;
+  }
+  .section-head p{
+    color:var(--ink-muted);
+    margin-top:14px;
+    font-size:1.15rem;
+  }
+  hr.rule{
+    border:none; border-top:2px solid var(--line);
+    margin:0;
+  }
+
+  /* ---------- rubric grid (placeholder rubrics) ---------- */
+  .rubric-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:clamp(20px,3vw,30px);
+  }
+  .rubric-card{
+    border:2px solid var(--line);
+    background:var(--surface);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
+    min-height:110px;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:22px 18px;
+    transition:box-shadow .18s ease, transform .18s ease;
+    font:inherit;
+    color:inherit;
+    -webkit-appearance:none;
+    appearance:none;
+    cursor:pointer;
+  }
+  .rubric-card:hover{
+    transform:translate(-3px,-3px);
+    box-shadow: calc(var(--shadow-offset) + 3px) calc(var(--shadow-offset) + 3px) 0 0 var(--line);
+  }
+  .rubric-card:focus-visible{
+    outline:3px solid var(--accent-deep);
+    outline-offset:3px;
+  }
+  .rubric-card span{
+    font-family:'Heebo',sans-serif;
+    font-weight:700;
+    font-size:1.08rem;
+    line-height:1.4;
+    text-wrap:balance;
+    pointer-events:none;
+  }
+  .rubric-card span small{
+    display:inline-block;
+    margin-top:6px;
+    font-size:0.78rem;
+    font-weight:700;
+    letter-spacing:.02em;
+    color:var(--accent-deep);
+  }
+  .rubric-card--action{
+    background:var(--surface-2);
+    border-color:var(--accent-deep);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--line);
+    text-decoration:none;
+  }
+  .rubric-card--action:hover{
+    box-shadow: calc(var(--shadow-offset) + 3px) calc(var(--shadow-offset) + 3px) 0 0 var(--accent-deep);
+  }
+
+  /* ---------- rubric image modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,24,38,0.6);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    z-index:200;
+  }
+  .modal-overlay[hidden]{ display:none; }
+  .modal-box{
+    position:relative;
+    background:var(--surface);
+    border:2px solid var(--line);
+    box-shadow: 10px 10px 0 0 var(--accent);
+    padding:34px 28px 26px;
+    max-width:360px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-close{
+    position:absolute; top:10px; left:10px;
+    width:34px; height:34px;
+    border:2px solid var(--line);
+    background:var(--surface-2);
+    color:var(--ink);
+    font-size:1rem;
+    line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    font:inherit;
+  }
+  .modal-art{
+    display:flex; justify-content:center;
+    margin-bottom:18px;
+    color:var(--ink-muted);
+  }
+  .modal-caption{
+    font-size:1.15rem;
+    font-weight:500;
+  }
+  .modal-caption strong{
+    font-family:'Suez One',serif;
+    font-weight:400;
+    color:var(--accent-deep);
+  }
+  .modal-note{
+    margin-top:10px;
+    font-size:0.9rem;
+    color:var(--ink-muted);
+  }
+
+  /* ---------- contact ---------- */
+  .contact-shell{
+    border:2px solid var(--line);
+    background:var(--surface);
+    padding:clamp(28px,5vw,48px);
+    box-shadow: 10px 10px 0 0 var(--line-soft);
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:clamp(28px,4vw,50px);
+  }
+  .contact-shell h2{ font-size:clamp(1.95rem,3.4vw,2.5rem); }
+  .contact-shell > .copy p{ color:var(--ink-muted); margin-top:12px; max-width:44ch; }
+  .contact-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-top:26px; }
+  .info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    align-content:start;
+  }
+  .info-card{
+    border:2px solid var(--line);
+    background:var(--surface-2);
+    padding:14px 16px;
+    box-shadow: 4px 4px 0 0 var(--accent);
+  }
+  .info-card .label{
+    font-size:0.85rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--accent-deep);
+    display:block;
+    margin-bottom:4px;
+  }
+  .info-card .value{
+    font-weight:500;
+    font-size:1.1rem;
+  }
+  .info-card a.value{ text-decoration:underline; text-underline-offset:3px; }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:2px solid var(--line);
+    padding-block:28px;
+  }
+  .foot-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    font-size:0.98rem;
+    color:var(--ink-muted);
+  }
+  .foot-row .logo{ font-size:1.15rem; }
+  .foot-row .logo .mark{ width:28px;height:28px; font-size:0.8rem; }
+
+  /* ---------- login gate ---------- */
+  .gate-overlay{
+    position:fixed; inset:0;
+    background:var(--bg);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 34px 34px;
+    display:flex; align-items:center; justify-content:center;
+    z-index:1000;
+    padding:20px;
+  }
+  .gate-overlay[hidden]{ display:none; }
+  .gate-box{
+    background:var(--surface);
+    border:2px solid var(--line);
+    box-shadow:10px 10px 0 0 var(--accent);
+    padding:36px 30px;
+    max-width:360px;
+    width:100%;
+    text-align:center;
+  }
+  .gate-box .logo{ justify-content:center; margin-bottom:18px; }
+  .gate-box h2{ font-size:1.5rem; margin-bottom:6px; }
+  .gate-box .gate-sub{ color:var(--ink-muted); font-size:0.95rem; margin-bottom:8px; }
+  .gate-label{
+    display:block;
+    text-align:right;
+    font-size:0.85rem;
+    font-weight:700;
+    margin:14px 0 6px;
+    color:var(--ink-muted);
+  }
+  .gate-input{
+    width:100%;
+    border:2px solid var(--line);
+    padding:10px 12px;
+    font:inherit;
+    background:var(--surface);
+    color:var(--ink);
+  }
+  .gate-error{
+    color:#c0392b;
+    font-size:0.88rem;
+    margin-top:12px;
+  }
+
+  @media (max-width:920px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-art{order:-1;}
+    .value-grid{grid-template-columns:repeat(2,1fr);}
+    .rubric-grid{grid-template-columns:repeat(2,1fr);}
+    .contact-shell{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    nav.links{
+      position:absolute; inset-inline:0; top:100%;
+      background:var(--bg);
+      border-bottom:2px solid var(--line);
+      flex-direction:column;
+      padding:18px clamp(20px,4vw,48px);
+      display:none;
+      gap:16px;
+    }
+    nav.links.open{display:flex;}
+    .menu-toggle{display:flex;}
+    .value-grid, .rubric-grid{grid-template-columns:1fr;}
+    .info-grid{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Suez+One&family=Heebo:wght@300;400;500;700;900&display=swap">
+</head>
+<body>
+
+<div class="gate-overlay" id="gateOverlay">
+  <form class="gate-box" id="gateForm">
+    <div class="logo"><span class="mark">קב</span>קובי ובניו</div>
+    <h2>כניסה לאתר</h2>
+    <p class="gate-sub">האתר פרטי לצוות — נא להזין שם משתמש וסיסמה</p>
+    <label class="gate-label" for="gateUser">שם משתמש</label>
+    <input type="text" id="gateUser" class="gate-input" autocomplete="username" required>
+    <label class="gate-label" for="gatePass">סיסמה</label>
+    <input type="password" id="gatePass" class="gate-input" autocomplete="current-password" required>
+    <button type="submit" class="btn primary" style="width:100%; justify-content:center; margin-top:18px;">כניסה</button>
+    <p id="gateError" class="gate-error" hidden>שם המשתמש או הסיסמה שגויים.</p>
+  </form>
+</div>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="#top" class="logo"><span class="mark">קב</span>קובי ובניו</a>
+    <nav class="links" id="navLinks">
+      <a href="#pre-tender">פרה מכרז</a>
+      <a href="#exec-manager">מנהל ביצוע</a>
+      <a href="#exec-engineer">מהנדס ביצוע</a>
+      <a href="#quality-control">בקרת איכות</a>
+      <a href="#contact">יצירת קשר</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="#contact" class="btn primary">לתיאום פגישה</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="פתיחת תפריט" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">קבלן בניין ושיפוצים</span>
+        <h1>קובי ובניו — בונים על <mark>יסודות איתנים</mark></h1>
+        <p class="lead">מלווים פרויקטים מהתכנון הראשוני ועד למסירת המפתח — בנייה חדשה, שיפוצים ותוספות, בדייקנות של מהנדס ובאחריות אישית של בעל בית.</p>
+        <div class="hero-ctas">
+          <a href="tel:+972500000000" class="btn primary">לתיאום פגישת ייעוץ</a>
+          <a href="#pre-tender" class="btn ghost">מעבר לפרה מכרז</a>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <svg viewBox="0 0 480 360" role="img" aria-label="שרטוט קו של מנוף ובניין בהקמה">
+          <g fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="20" y1="320" x2="460" y2="320"></line>
+            <rect x="230" y="150" width="150" height="170"></rect>
+            <line x1="230" y1="185" x2="380" y2="185"></line>
+            <line x1="230" y1="220" x2="380" y2="220"></line>
+            <line x1="230" y1="255" x2="380" y2="255"></line>
+            <line x1="270" y1="150" x2="270" y2="320"></line>
+            <line x1="310" y1="150" x2="310" y2="320"></line>
+            <line x1="350" y1="150" x2="350" y2="320"></line>
+            <rect x="60" y="30" width="10" height="290"></rect>
+            <line x1="65" y1="45" x2="220" y2="70"></line>
+            <line x1="65" y1="45" x2="65" y2="110"></line>
+            <line x1="65" y1="70" x2="150" y2="88"></line>
+            <line x1="65" y1="30" x2="30" y2="70"></line>
+            <line x1="65" y1="60" x2="30" y2="70"></line>
+          </g>
+          <g fill="var(--accent)" stroke="var(--line)" stroke-width="2">
+            <rect x="210" y="66" width="18" height="14"></rect>
+            <circle cx="219" cy="90" r="4" fill="none"></circle>
+          </g>
+          <g fill="none" stroke="var(--line-soft)" stroke-width="1.5" stroke-dasharray="4 4">
+            <line x1="20" y1="150" x2="20" y2="320"></line>
+            <line x1="14" y1="150" x2="26" y2="150"></line>
+            <line x1="14" y1="320" x2="26" y2="320"></line>
+          </g>
+          <text x="30" y="238" fill="var(--ink-muted)" font-family="Heebo, sans-serif" font-size="12" transform="rotate(-90 30 238)">גובה מתוכנן</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="value-strip">
+    <div class="wrap value-grid">
+      <div class="value-card">
+        <span class="num">01</span>
+        <h3>ליווי צמוד</h3>
+        <p>מהפגישה הראשונה ועד מסירת המפתח, איש קשר אחד לאורך כל הדרך.</p>
+      </div>
+      <div class="value-card">
+        <span class="num">02</span>
+        <h3>עמידה בלוחות זמנים</h3>
+        <p>תוכנית עבודה מסודרת לכל שלב, בלי הפתעות באמצע הפרויקט.</p>
+      </div>
+      <div class="value-card">
+        <span class="num">03</span>
+        <h3>שקיפות בתמחור</h3>
+        <p>הצעת מחיר מפורטת מראש, כולל חומרים ועבודה, בכתב וברור.</p>
+      </div>
+      <div class="value-card">
+        <span class="num">04</span>
+        <h3>אחריות על העבודה</h3>
+        <p>זמינים גם אחרי מסירת הפרויקט — לא נעלמים כשהעבודה נגמרת.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="pre-tender">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">פרה מכרז</span>
+        <h2>שלב ההכנה שלפני היציאה לשטח</h2>
+        <p>איסוף נתונים, כתבי כמויות ותמחור ראשוני — הבסיס שעליו נבנית כל הצעת מחיר.</p>
+      </div>
+
+      <div class="rubric-grid">
+        <button type="button" class="rubric-card" data-name="השוואת מחיר כתב כמויות למחירונים"><span>השוואת מחיר כתב כמויות למחירונים</span></button>
+        <button type="button" class="rubric-card" data-name="השוואת מחיר כתב כמויות לשוק"><span>השוואת מחיר כתב כמויות לשוק</span></button>
+        <button type="button" class="rubric-card" data-name="חישוב כמויות לפי תוכניות מכרז"><span>חישוב כמויות לפי תוכניות מכרז</span></button>
+        <button type="button" class="rubric-card" data-name="חישוב עלות התארגנות לפי מסמכי מכרז"><span>חישוב עלות התארגנות לפי מסמכי מכרז</span></button>
+        <button type="button" class="rubric-card" data-name="חישוב עלות תקורות לפי מסמכי מכרז"><span>חישוב עלות תקורות לפי מסמכי מכרז</span></button>
+        <button type="button" class="rubric-card" data-name="חישוב דרכי גישה לאתר"><span>חישוב דרכי גישה לאתר</span></button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="exec-manager" style="background:var(--surface-2);">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">מנהל ביצוע</span>
+        <h2>ניהול העבודה בשטח, מול כל בעלי המקצוע</h2>
+        <p>תיאום קבלני המשנה, לוחות הזמנים ובטיחות האתר — מהיום הראשון ועד המסירה. (תוכן הרובריקות בהמשך — בינתיים שמות זמניים)</p>
+      </div>
+
+      <div class="rubric-grid">
+        <button type="button" class="rubric-card" data-name="ניהול לוחות זמנים"><span>ניהול לוחות זמנים</span></button>
+        <button type="button" class="rubric-card" data-name="יומני עבודה"><span>יומני עבודה</span></button>
+        <a class="rubric-card rubric-card--action" href="bidfinel-agent2:run" title="מפעיל את AGENT2 במחשב שלך (דורש הגדרה חד-פעמית)">
+          <span>ניסן<br><small>▶ הפעלת AGENT2</small></span>
+        </a>
+        <button type="button" class="rubric-card" data-name="וורטורטל"><span>וורטורטל</span></button>
+        <button type="button" class="rubric-card" data-name="בלסטויז"><span>בלסטויז</span></button>
+        <button type="button" class="rubric-card" data-name="איווי"><span>איווי</span></button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="exec-engineer">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">מהנדס ביצוע</span>
+        <h2>הליווי ההנדסי שמאחורי כל שלב</h2>
+        <p>בדיקת תוכניות, פתרונות מקצועיים בשטח ועמידה בתקנים ההנדסיים. (תוכן הרובריקות בהמשך — בינתיים שמות זמניים)</p>
+      </div>
+
+      <div class="rubric-grid">
+        <button type="button" class="rubric-card" data-name="סנורלקס"><span>סנורלקס</span></button>
+        <button type="button" class="rubric-card" data-name="גנגר"><span>גנגר</span></button>
+        <button type="button" class="rubric-card" data-name="מיוטו"><span>מיוטו</span></button>
+        <button type="button" class="rubric-card" data-name="מיו"><span>מיו</span></button>
+        <button type="button" class="rubric-card" data-name="דראגונייט"><span>דראגונייט</span></button>
+        <button type="button" class="rubric-card" data-name="לוגיה"><span>לוגיה</span></button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="quality-control" style="background:var(--surface-2);">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">בקרת איכות</span>
+        <h2>בדיקות לאורך כל הדרך, לא רק בסוף</h2>
+        <p>מעקב שוטף אחר איכות הביצוע והחומרים, כדי שהתוצאה תעמוד בסטנדרט שסיכמנו. (תוכן הרובריקות בהמשך — בינתיים שמות זמניים)</p>
+      </div>
+
+      <div class="rubric-grid">
+        <button type="button" class="rubric-card" data-name="ריכוז אי התאמות בחריגה"><span>ריכוז אי התאמות בחריגה</span></button>
+        <button type="button" class="rubric-card" data-name="אוניקס"><span>אוניקס</span></button>
+        <button type="button" class="rubric-card" data-name="מאצ'ופ"><span>מאצ'ופ</span></button>
+        <button type="button" class="rubric-card" data-name="גולבט"><span>גולבט</span></button>
+        <button type="button" class="rubric-card" data-name="אלקזאם"><span>אלקזאם</span></button>
+        <button type="button" class="rubric-card" data-name="דיטו"><span>דיטו</span></button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-shell">
+        <div class="copy">
+          <span class="eyebrow">יצירת קשר</span>
+          <h2>בואו נדבר על הפרויקט הבא שלכם</h2>
+          <p>ספרו לנו מה אתם מתכננים — בנייה, שיפוץ או תוספת — ונחזור אליכם עם תיאום פגישה והערכה ראשונית.</p>
+          <div class="contact-actions">
+            <a href="tel:+972500000000" class="btn primary">התקשרו עכשיו</a>
+            <a href="https://wa.me/972500000000" target="_blank" rel="noopener" class="btn ghost">שלחו וואטסאפ</a>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="info-card">
+            <span class="label">טלפון</span>
+            <a class="value" href="tel:+972500000000">050-000-0000</a>
+          </div>
+          <div class="info-card">
+            <span class="label">אימייל</span>
+            <a class="value" href="mailto:info@kobi-sons.co.il">info@kobi-sons.co.il</a>
+          </div>
+          <div class="info-card">
+            <span class="label">אזור פעילות</span>
+            <span class="value">מרכז הארץ והשפלה</span>
+          </div>
+          <div class="info-card">
+            <span class="label">שעות מענה</span>
+            <span class="value">א׳–ה׳, 08:00–18:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <a href="#top" class="logo"><span class="mark">קב</span>קובי ובניו</a>
+    <span id="yearLine">© קובי ובניו — קבלן בניין ושיפוצים</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="rubricModal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="rubricModalName">
+    <button type="button" class="modal-close" id="rubricModalClose" aria-label="סגירה">✕</button>
+    <div class="modal-art">
+      <svg width="120" height="90" viewBox="0 0 120 90" aria-hidden="true">
+        <rect x="2" y="2" width="116" height="86" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 5"></rect>
+        <circle cx="32" cy="32" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <path d="M8 74 L38 46 L58 64 L80 40 L112 74" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <p class="modal-caption">תמונה של <strong id="rubricModalName">—</strong> תופיע כאן</p>
+    <p class="modal-note">זהו מציין מקום זמני בלבד — כשהתוכן הסופי של הרובריקה ייקבע, התמונה האמיתית תוחלף כאן.</p>
+  </div>
+</div>
+
+<script>
+  (function(){
+    /* ---- login gate ---- */
+    var GATE_KEY = 'kobiSonsSiteAuthed';
+    var VALID_USER = 'SNEW';
+    var VALID_PASS = 'SNEW';
+    var gateOverlay = document.getElementById('gateOverlay');
+    var gateForm = document.getElementById('gateForm');
+    var gateUser = document.getElementById('gateUser');
+    var gatePass = document.getElementById('gatePass');
+    var gateError = document.getElementById('gateError');
+
+    function unlockGate(){
+      if(gateOverlay){ gateOverlay.hidden = true; }
+    }
+    try{
+      if(localStorage.getItem(GATE_KEY) === 'yes'){ unlockGate(); }
+    }catch(e){ /* localStorage unavailable - gate stays visible each visit */ }
+
+    if(gateForm){
+      gateForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(gateUser.value.trim() === VALID_USER && gatePass.value === VALID_PASS){
+          try{ localStorage.setItem(GATE_KEY, 'yes'); }catch(e){}
+          gateError.hidden = true;
+          unlockGate();
+        } else {
+          gateError.hidden = false;
+        }
+      });
+    }
+
+    /* ---- mobile nav ---- */
+    var toggle = document.getElementById('menuToggle');
+    var nav = document.getElementById('navLinks');
+    if(toggle && nav){
+      toggle.addEventListener('click', function(){
+        var open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded','false');
+        });
+      });
+    }
+
+    /* ---- footer year ---- */
+    var y = document.getElementById('yearLine');
+    if(y){
+      var year = new Date().getFullYear();
+      y.textContent = '© ' + year + ' קובי ובניו — קבלן בניין ושיפוצים';
+    }
+
+    /* ---- placeholder rubric modal ---- */
+    var modal = document.getElementById('rubricModal');
+    var modalName = document.getElementById('rubricModalName');
+    var modalClose = document.getElementById('rubricModalClose');
+    var lastFocused = null;
+
+    function openModal(name){
+      lastFocused = document.activeElement;
+      modalName.textContent = name;
+      modal.hidden = false;
+      modalClose.focus();
+    }
+    function closeModal(){
+      modal.hidden = true;
+      if(lastFocused && lastFocused.focus){ lastFocused.focus(); }
+    }
+
+    document.querySelectorAll('button.rubric-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        openModal(card.getAttribute('data-name') || '');
+      });
+    });
+    if(modalClose){ modalClose.addEventListener('click', closeModal); }
+    if(modal){
+      modal.addEventListener('click', function(e){
+        if(e.target === modal){ closeModal(); }
+      });
+    }
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !modal.hidden){ closeModal(); }
+    });
+  })();
+</script>
+</body>
+</html>
