@@ -6,46 +6,62 @@
 <title>קובי ובניו</title>
 <style>
   :root{
-    --bg:#f2f4f7;
+    --bg:#f4f6f8;
     --surface:#ffffff;
-    --surface-2:#e7ebf3;
-    --ink:#0a0a0c;
-    --ink-muted:#53565c;
-    --accent:#1450c4;
-    --accent-deep:#0d3a94;
+    --surface-2:#eef4f0;
+    --ink:#182420;
+    --ink-muted:#5b6b66;
+    --accent:#00854a;
+    --accent-deep:#0b5c34;
+    --accent-soft:#e3f3ea;
     --accent-ink:#ffffff;
-    --line:#0a0a0c;
-    --line-soft:#c6cedd;
-    --grid: rgba(10,10,12,0.07);
-    --shadow-offset: 7px;
+    --line:#dbe2de;
+    --line-soft:#e9edec;
+    --danger:#c0392b;
+    --grid: rgba(0,133,74,0.07);
+    --radius:12px;
+    --radius-lg:18px;
+    --shadow-sm: 0 1px 2px rgba(15,23,20,0.07);
+    --shadow-md: 0 10px 28px rgba(15,23,20,0.10);
+    --shadow-lg: 0 24px 60px rgba(15,23,20,0.18);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0a0c10;
-      --surface:#15181f;
-      --surface-2:#1c2029;
-      --ink:#f2f3f5;
-      --ink-muted:#a7acb8;
-      --accent:#4d8dff;
-      --accent-deep:#2f6fed;
-      --accent-ink:#0a0c10;
-      --line:#f2f3f5;
-      --line-soft:#2b3140;
-      --grid: rgba(242,243,245,0.07);
+      --bg:#101613;
+      --surface:#182019;
+      --surface-2:#1e2921;
+      --ink:#edf3ef;
+      --ink-muted:#9db3aa;
+      --accent:#28c76f;
+      --accent-deep:#1fa25a;
+      --accent-soft:#173222;
+      --accent-ink:#08110b;
+      --line:#293630;
+      --line-soft:#222b26;
+      --danger:#ff7466;
+      --grid: rgba(40,199,111,0.09);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+      --shadow-md: 0 10px 28px rgba(0,0,0,0.4);
+      --shadow-lg: 0 24px 60px rgba(0,0,0,0.55);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0a0c10;
-    --surface:#15181f;
-    --surface-2:#1c2029;
-    --ink:#f2f3f5;
-    --ink-muted:#a7acb8;
-    --accent:#4d8dff;
-    --accent-deep:#2f6fed;
-    --accent-ink:#0a0c10;
-    --line:#f2f3f5;
-    --line-soft:#2b3140;
-    --grid: rgba(242,243,245,0.07);
+    --bg:#101613;
+    --surface:#182019;
+    --surface-2:#1e2921;
+    --ink:#edf3ef;
+    --ink-muted:#9db3aa;
+    --accent:#28c76f;
+    --accent-deep:#1fa25a;
+    --accent-soft:#173222;
+    --accent-ink:#08110b;
+    --line:#293630;
+    --line-soft:#222b26;
+    --danger:#ff7466;
+    --grid: rgba(40,199,111,0.09);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+    --shadow-md: 0 10px 28px rgba(0,0,0,0.4);
+    --shadow-lg: 0 24px 60px rgba(0,0,0,0.55);
   }
 
   *{box-sizing:border-box;}
@@ -63,11 +79,11 @@
     background-size: 34px 34px;
   }
   h1,h2,h3{
-    font-family:'Suez One','Heebo',serif;
-    font-weight:400;
+    font-family:'Heebo',sans-serif;
+    font-weight:800;
     margin:0;
     text-wrap:balance;
-    letter-spacing:0.2px;
+    letter-spacing:-0.01em;
   }
   p{margin:0;}
   a{color:inherit;text-decoration:none;}
@@ -82,8 +98,8 @@
   /* ---------- header ---------- */
   header{
     position:sticky; top:0; z-index:50;
-    background:var(--bg);
-    border-bottom:2px solid var(--line);
+    background:var(--accent);
+    box-shadow:var(--shadow-sm);
   }
   .nav-row{
     display:flex;
@@ -96,57 +112,72 @@
     display:flex;
     align-items:center;
     gap:10px;
-    font-family:'Suez One','Heebo',serif;
-    font-size:1.5rem;
+    font-family:'Heebo',sans-serif;
+    font-weight:800;
+    font-size:1.4rem;
   }
+  header .logo{ color:#fff; }
   .logo .mark{
-    width:38px;height:38px;
-    border:2.5px solid var(--line);
+    width:40px;height:40px;
+    border-radius:10px;
     background:var(--accent);
     display:flex;align-items:center;justify-content:center;
     font-family:'Heebo',sans-serif;
     font-weight:900;
-    color:var(--accent-ink);
+    color:#fff;
     flex:none;
+  }
+  header .logo .mark{
+    background:rgba(255,255,255,0.18);
+    color:#fff;
   }
   .btn{
     display:inline-flex;
     align-items:center;
     justify-content:center;
     gap:8px;
-    border:2px solid var(--line);
-    padding:13px 26px;
+    border:1.5px solid transparent;
+    border-radius:var(--radius);
+    padding:12px 24px;
     font-weight:700;
-    font-size:1.08rem;
+    font-size:1.02rem;
     white-space:nowrap;
     cursor:pointer;
     background:var(--surface);
     color:var(--ink);
-    transition:transform .15s ease;
+    box-shadow:var(--shadow-sm);
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease;
   }
-  .btn:hover{transform:translate(-2px,-2px);}
+  .btn:hover{transform:translateY(-2px); box-shadow:var(--shadow-md);}
   .btn.primary{
     background:var(--accent);
     color:var(--accent-ink);
-    border-color:var(--line);
-    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--line);
+    border-color:var(--accent);
   }
   .btn.primary:hover{
-    box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 0 var(--line);
+    background:var(--accent-deep);
+    border-color:var(--accent-deep);
   }
   .btn.ghost{
-    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
+    background:transparent;
+    color:var(--accent);
+    border-color:var(--accent);
+    box-shadow:none;
   }
   .btn.ghost:hover{
-    box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 0 var(--accent);
+    background:var(--accent-soft);
+  }
+  header .btn.ghost{
+    color:#fff;
+    border-color:rgba(255,255,255,0.65);
+    background:rgba(255,255,255,0.08);
+  }
+  header .btn.ghost:hover{
+    background:rgba(255,255,255,0.2);
   }
   .btn-logout, .btn-compact{
     padding:9px 18px;
-    font-size:0.92rem;
-    box-shadow:none;
-  }
-  .btn-logout:hover, .btn-compact:hover{
-    box-shadow: 4px 4px 0 0 var(--accent);
+    font-size:0.9rem;
   }
   .header-actions{
     display:flex;
@@ -157,7 +188,7 @@
   /* ---------- section shell ---------- */
   section{ padding-block:clamp(40px,6vw,72px); }
   hr.rule{
-    border:none; border-top:2px solid var(--line);
+    border:none; border-top:1px solid var(--line);
     margin:0;
   }
 
@@ -168,9 +199,10 @@
     gap:clamp(20px,3vw,30px);
   }
   .rubric-card{
-    border:2px solid var(--line);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
     background:var(--surface);
-    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
+    box-shadow:var(--shadow-sm);
     min-height:110px;
     width:100%;
     display:flex;
@@ -178,7 +210,7 @@
     justify-content:center;
     text-align:center;
     padding:22px 18px;
-    transition:box-shadow .18s ease, transform .18s ease;
+    transition:box-shadow .18s ease, transform .18s ease, border-color .18s ease;
     font:inherit;
     color:inherit;
     -webkit-appearance:none;
@@ -186,8 +218,9 @@
     cursor:pointer;
   }
   .rubric-card:hover{
-    transform:translate(-3px,-3px);
-    box-shadow: calc(var(--shadow-offset) + 3px) calc(var(--shadow-offset) + 3px) 0 0 var(--line);
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-md);
+    border-color:var(--accent);
   }
   .rubric-card:focus-visible{
     outline:3px solid var(--accent-deep);
@@ -210,13 +243,13 @@
     color:var(--accent-deep);
   }
   .rubric-card--action{
-    background:var(--surface-2);
-    border-color:var(--accent-deep);
-    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--line);
+    background:var(--accent-soft);
+    border-color:var(--accent);
     text-decoration:none;
   }
   .rubric-card--action:hover{
-    box-shadow: calc(var(--shadow-offset) + 3px) calc(var(--shadow-offset) + 3px) 0 0 var(--accent-deep);
+    border-color:var(--accent-deep);
+    box-shadow:var(--shadow-md);
   }
 
   /* ---------- work-area tabs ---------- */
@@ -227,22 +260,23 @@
     margin-bottom:clamp(28px,4vw,44px);
   }
   .tab-btn{
-    border:2px solid var(--line);
+    border:1.5px solid var(--line);
+    border-radius:999px;
     background:var(--surface);
-    color:var(--ink);
+    color:var(--ink-muted);
     font:inherit;
     font-weight:700;
-    font-size:1.05rem;
-    padding:14px 30px;
+    font-size:1rem;
+    padding:12px 28px;
     cursor:pointer;
-    box-shadow: 5px 5px 0 0 var(--line-soft);
-    transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    box-shadow:none;
+    transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
     -webkit-appearance:none;
     appearance:none;
   }
   .tab-btn:hover{
-    transform:translate(-2px,-2px);
-    box-shadow: 7px 7px 0 0 var(--line-soft);
+    border-color:var(--accent);
+    color:var(--ink);
   }
   .tab-btn:focus-visible{
     outline:3px solid var(--accent-deep);
@@ -250,18 +284,20 @@
   }
   .tab-btn[aria-selected="true"]{
     background:var(--accent);
+    border-color:var(--accent);
     color:var(--accent-ink);
-    box-shadow: 5px 5px 0 0 var(--line);
+    box-shadow:var(--shadow-sm);
   }
   .tab-btn[aria-selected="true"]:hover{
-    box-shadow: 7px 7px 0 0 var(--line);
+    background:var(--accent-deep);
+    border-color:var(--accent-deep);
   }
   .tab-panel[hidden]{ display:none; }
 
   /* ---------- rubric image modal ---------- */
   .modal-overlay{
     position:fixed; inset:0;
-    background:rgba(15,24,38,0.6);
+    background:rgba(10,20,16,0.55);
     display:flex; align-items:center; justify-content:center;
     padding:24px;
     z-index:200;
@@ -270,24 +306,31 @@
   .modal-box{
     position:relative;
     background:var(--surface);
-    border:2px solid var(--line);
-    box-shadow: 10px 10px 0 0 var(--accent);
+    border:1px solid var(--line-soft);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg);
     padding:34px 28px 26px;
     max-width:360px;
     width:100%;
     text-align:center;
   }
   .modal-close{
-    position:absolute; top:10px; left:10px;
+    position:absolute; top:12px; left:12px;
     width:34px; height:34px;
-    border:2px solid var(--line);
+    border:none;
+    border-radius:999px;
     background:var(--surface-2);
-    color:var(--ink);
+    color:var(--ink-muted);
     font-size:1rem;
     line-height:1;
     display:flex; align-items:center; justify-content:center;
     cursor:pointer;
     font:inherit;
+    transition: background .15s ease, color .15s ease;
+  }
+  .modal-close:hover{
+    background:var(--accent-soft);
+    color:var(--accent-deep);
   }
   .modal-art{
     display:flex; justify-content:center;
@@ -299,14 +342,15 @@
     max-width:160px;
     max-height:160px;
     margin:0 auto 18px;
+    border-radius:var(--radius);
   }
   .modal-caption{
     font-size:1.15rem;
     font-weight:500;
   }
   .modal-caption strong{
-    font-family:'Suez One',serif;
-    font-weight:400;
+    font-family:'Heebo',sans-serif;
+    font-weight:800;
     color:var(--accent-deep);
   }
   .modal-note{
@@ -326,9 +370,10 @@
     text-align:center;
   }
   .doc-card{
-    border:2px dashed var(--line-soft);
+    border:1.5px dashed var(--line);
+    border-radius:var(--radius);
     background:var(--surface);
-    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
+    box-shadow:none;
     padding:22px 16px;
     display:flex;
     flex-direction:column;
@@ -338,9 +383,10 @@
     transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
   }
   .doc-card.drag-over{
-    border-color:var(--accent-deep);
-    background:var(--surface-2);
-    box-shadow: calc(var(--shadow-offset) + 3px) calc(var(--shadow-offset) + 3px) 0 0 var(--accent-deep);
+    border-color:var(--accent);
+    border-style:solid;
+    background:var(--accent-soft);
+    box-shadow:var(--shadow-md);
   }
   .doc-card h3{
     font-family:'Heebo',sans-serif;
@@ -352,32 +398,64 @@
     color:var(--ink-muted);
   }
   .doc-error{
-    color:#c0392b;
+    color:var(--danger);
     font-size:0.78rem;
-  }
-  .doc-filename{
-    font-size:0.82rem;
-    color:var(--ink-muted);
-    word-break:break-word;
-    max-width:100%;
-  }
-  .doc-filename.has-file{
-    color:var(--accent-deep);
-    font-weight:700;
   }
   .doc-upload-btn{
     padding:9px 18px;
     font-size:0.92rem;
   }
-  .doc-remove-btn{
-    background:none;
-    border:none;
-    color:#c0392b;
-    font-size:0.78rem;
-    cursor:pointer;
-    text-decoration:underline;
+  .doc-file-list{
+    list-style:none;
+    margin:6px 0 0;
     padding:0;
-    font:inherit;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-height:150px;
+    overflow-y:auto;
+  }
+  .doc-file-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    background:var(--surface-2);
+    border:1px solid var(--line-soft);
+    border-radius:8px;
+    padding:6px 10px;
+    font-size:0.8rem;
+    color:var(--ink);
+  }
+  .doc-file-name{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    text-align:right;
+    flex:1;
+  }
+  .doc-file-remove{
+    flex:none;
+    width:20px; height:20px;
+    border-radius:999px;
+    border:none;
+    background:transparent;
+    color:var(--danger);
+    font-size:0.8rem;
+    line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .doc-file-remove:hover{
+    background:rgba(192,57,43,0.14);
+  }
+  .doc-file-empty{
+    font-size:0.8rem;
+    color:var(--ink-muted);
+    text-align:center;
+    padding:4px 0;
   }
 
   /* ---------- login gate ---------- */
@@ -395,24 +473,26 @@
   .gate-overlay[hidden]{ display:none; }
   .gate-box{
     background:var(--surface);
-    border:2px solid var(--line);
-    box-shadow:10px 10px 0 0 var(--accent);
-    padding:36px 30px;
+    border:1px solid var(--line-soft);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg);
+    padding:40px 32px;
     max-width:360px;
     width:100%;
     text-align:center;
   }
-  .gate-box .logo{ justify-content:center; margin-bottom:18px; }
+  .gate-box .logo{ justify-content:center; margin-bottom:18px; color:var(--ink); }
   .gate-box h2{ font-size:1.5rem; margin-bottom:6px; }
   .gate-box .gate-sub{ color:var(--ink-muted); font-size:0.95rem; margin-bottom:8px; }
   .gate-box .gate-funny{
-    color:var(--accent);
-    font-size:0.85rem;
-    font-style:italic;
-    border-top:1px dashed var(--line-soft);
-    border-bottom:1px dashed var(--line-soft);
-    padding:10px 2px;
-    margin:12px 0 4px;
+    color:var(--ink-muted);
+    font-size:0.88rem;
+    font-style:normal;
+    border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line-soft);
+    padding:12px 4px;
+    margin:14px 0 4px;
+    line-height:1.55;
   }
   .gate-label{
     display:block;
@@ -424,14 +504,21 @@
   }
   .gate-input{
     width:100%;
-    border:2px solid var(--line);
-    padding:10px 12px;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:11px 14px;
     font:inherit;
     background:var(--surface);
     color:var(--ink);
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .gate-input:focus{
+    outline:none;
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);
   }
   .gate-error{
-    color:#c0392b;
+    color:var(--danger);
     font-size:0.88rem;
     margin-top:12px;
   }
@@ -441,9 +528,10 @@
     top:20px;
     right:20px;
     z-index:1001;
-    padding:9px 16px;
+    padding:9px 18px;
     font-size:0.8rem;
-    letter-spacing:0.06em;
+    letter-spacing:0.04em;
+    border-radius:999px;
   }
   .admin-back-btn{
     display:block;
@@ -457,6 +545,7 @@
     margin:14px auto 0;
     font:inherit;
   }
+  .admin-back-btn:hover{ color:var(--accent-deep); }
   .admin-panel-box{
     max-width:420px;
     position:relative;
@@ -478,7 +567,7 @@
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Suez+One&family=Heebo:wght@300;400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap">
 </head>
 <body>
 
@@ -489,7 +578,7 @@
     <div class="logo"><span class="mark">קב</span>קובי ובניו</div>
     <h2>כניסה לאתר</h2>
     <p class="gate-sub">האתר פרטי לצוות — נא להזין שם משתמש וסיסמה</p>
-    <p class="gate-funny">קובי ובניו בע״מ — יוצקים יסודות מאז 1962, ו"כמעט גמורים" מאז 1963. לוח הזמנים שלנו ישר כמו קיר שבנה שוליה ביום שישי בצהריים.</p>
+    <p class="gate-funny">קובי ובניו בע״מ — חברת בנייה ותשתיות הפועלת מאז 1962, המבצעת פרויקטי מגורים, תשתיות ומכרזים ציבוריים תוך הקפדה על איכות, בטיחות ועמידה בלוחות זמנים.</p>
     <label class="gate-label" for="gateUser">שם משתמש</label>
     <input type="text" id="gateUser" class="gate-input" autocomplete="username" required>
     <label class="gate-label" for="gatePass">סיסמה</label>
@@ -521,8 +610,7 @@
       <p class="doc-hint">גררו לכאן קבצים, או</p>
       <button type="button" class="btn ghost doc-upload-btn" data-doc="pricelists">בחירת קבצים</button>
       <input type="file" id="docFile-pricelists" class="doc-file-input" data-doc="pricelists" hidden multiple accept=".xls,.xlsx,.pdf">
-      <p class="doc-filename" id="docName-pricelists" data-empty="לא הועלו מחירונים">לא הועלו מחירונים</p>
-      <button type="button" class="doc-remove-btn" data-doc="pricelists" id="docRemove-pricelists" hidden>הסרת קבצים</button>
+      <ul class="doc-file-list" id="docList-pricelists" data-empty="לא הועלו מחירונים"></ul>
       <p class="doc-error" id="docError-pricelists" hidden></p>
     </div>
     <p class="modal-note" style="margin-top:16px;">הקבצים נשמרים בדפדפן הזה בלבד (לא מועלים לשרת) — לצורך תצוגה מקדימה של מבנה האתר.</p>
@@ -561,8 +649,8 @@
           <button type="button" class="rubric-card" data-name="חישוב עלות תקורות לפי מסמכי מכרז"><span>חישוב עלות תקורות לפי מסמכי מכרז</span></button>
           <button type="button" class="rubric-card" data-name="חישוב דרכי גישה לאתר"><span>חישוב דרכי גישה לאתר</span></button>
           <button type="button" class="rubric-card" data-name="הכנת קובץ כתב כמויות לפורמט מתאים"><span>הכנת קובץ כתב כמויות לפורמט מתאים</span></button>
-          <button type="button" class="rubric-card" data-name="בולבזאור"><span>בולבזאור</span></button>
-          <button type="button" class="rubric-card" data-name="צ'רמנדר"><span>צ'רמנדר</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 8"><span>רובריקה ריקה 8</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 9"><span>רובריקה ריקה 9</span></button>
         </div>
       </div>
 
@@ -571,40 +659,40 @@
           <button type="button" class="rubric-card" data-name="ניהול לוחות זמנים"><span>ניהול לוחות זמנים</span></button>
           <button type="button" class="rubric-card" data-name="יומני עבודה"><span>יומני עבודה</span></button>
           <button type="button" class="rubric-card" data-name="ניסן"><span>ניסן</span></button>
-          <button type="button" class="rubric-card" data-name="וורטורטל"><span>וורטורטל</span></button>
-          <button type="button" class="rubric-card" data-name="בלסטויז"><span>בלסטויז</span></button>
-          <button type="button" class="rubric-card" data-name="איווי"><span>איווי</span></button>
-          <button type="button" class="rubric-card" data-name="סקוורטל"><span>סקוורטל</span></button>
-          <button type="button" class="rubric-card" data-name="ג'יגליפאף"><span>ג'יגליפאף</span></button>
-          <button type="button" class="rubric-card" data-name="פסידאק"><span>פסידאק</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 13"><span>רובריקה ריקה 13</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 14"><span>רובריקה ריקה 14</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 15"><span>רובריקה ריקה 15</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 16"><span>רובריקה ריקה 16</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 17"><span>רובריקה ריקה 17</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 18"><span>רובריקה ריקה 18</span></button>
         </div>
       </div>
 
       <div class="tab-panel" data-panel="exec-engineer" id="panel-exec-engineer" role="tabpanel" aria-labelledby="tab-exec-engineer" hidden>
         <div class="rubric-grid">
-          <button type="button" class="rubric-card" data-name="סנורלקס"><span>סנורלקס</span></button>
-          <button type="button" class="rubric-card" data-name="גנגר"><span>גנגר</span></button>
-          <button type="button" class="rubric-card" data-name="מיוטו"><span>מיוטו</span></button>
-          <button type="button" class="rubric-card" data-name="מיו"><span>מיו</span></button>
-          <button type="button" class="rubric-card" data-name="דראגונייט"><span>דראגונייט</span></button>
-          <button type="button" class="rubric-card" data-name="לוגיה"><span>לוגיה</span></button>
-          <button type="button" class="rubric-card" data-name="מיאות'"><span>מיאות'</span></button>
-          <button type="button" class="rubric-card" data-name="מג'יקרפ"><span>מג'יקרפ</span></button>
-          <button type="button" class="rubric-card" data-name="קיובון"><span>קיובון</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 19"><span>רובריקה ריקה 19</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 20"><span>רובריקה ריקה 20</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 21"><span>רובריקה ריקה 21</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 22"><span>רובריקה ריקה 22</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 23"><span>רובריקה ריקה 23</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 24"><span>רובריקה ריקה 24</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 25"><span>רובריקה ריקה 25</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 26"><span>רובריקה ריקה 26</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 27"><span>רובריקה ריקה 27</span></button>
         </div>
       </div>
 
       <div class="tab-panel" data-panel="quality-control" id="panel-quality-control" role="tabpanel" aria-labelledby="tab-quality-control" hidden>
         <div class="rubric-grid">
           <button type="button" class="rubric-card" data-name="ריכוז אי התאמות בחריגה"><span>ריכוז אי התאמות בחריגה</span></button>
-          <button type="button" class="rubric-card" data-name="אוניקס"><span>אוניקס</span></button>
-          <button type="button" class="rubric-card" data-name="מאצ'וף"><span>מאצ'וף</span></button>
-          <button type="button" class="rubric-card" data-name="גולבט"><span>גולבט</span></button>
-          <button type="button" class="rubric-card" data-name="אלקזאם"><span>אלקזאם</span></button>
-          <button type="button" class="rubric-card" data-name="דיטו"><span>דיטו</span></button>
-          <button type="button" class="rubric-card" data-name="גאסטלי"><span>גאסטלי</span></button>
-          <button type="button" class="rubric-card" data-name="וולטורב"><span>וולטורב</span></button>
-          <button type="button" class="rubric-card" data-name="גיאודוד"><span>גיאודוד</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 29"><span>רובריקה ריקה 29</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 30"><span>רובריקה ריקה 30</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 31"><span>רובריקה ריקה 31</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 32"><span>רובריקה ריקה 32</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 33"><span>רובריקה ריקה 33</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 34"><span>רובריקה ריקה 34</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 35"><span>רובריקה ריקה 35</span></button>
+          <button type="button" class="rubric-card" data-name="רובריקה ריקה 36"><span>רובריקה ריקה 36</span></button>
         </div>
       </div>
     </div>
@@ -638,8 +726,7 @@
         <p class="doc-hint">גררו לכאן קובץ Excel, או</p>
         <button type="button" class="btn ghost doc-upload-btn" data-doc="boq">בחירת קובץ</button>
         <input type="file" id="docFile-boq" class="doc-file-input" data-doc="boq" hidden accept=".xls,.xlsx">
-        <p class="doc-filename" id="docName-boq" data-empty="לא הועלה קובץ">לא הועלה קובץ</p>
-        <button type="button" class="doc-remove-btn" data-doc="boq" id="docRemove-boq" hidden>הסרת קובץ</button>
+        <ul class="doc-file-list" id="docList-boq" data-empty="לא הועלה קובץ"></ul>
         <p class="doc-error" id="docError-boq" hidden></p>
       </div>
       <div class="doc-card" data-doc="plans">
@@ -647,8 +734,7 @@
         <p class="doc-hint">גררו לכאן קבצי PDF, או</p>
         <button type="button" class="btn ghost doc-upload-btn" data-doc="plans">בחירת קבצים</button>
         <input type="file" id="docFile-plans" class="doc-file-input" data-doc="plans" hidden multiple accept=".pdf">
-        <p class="doc-filename" id="docName-plans" data-empty="לא הועלו תוכניות" data-empty-plural="לא הועלו תוכניות">לא הועלו תוכניות</p>
-        <button type="button" class="doc-remove-btn" data-doc="plans" id="docRemove-plans" hidden>הסרת קבצים</button>
+        <ul class="doc-file-list" id="docList-plans" data-empty="לא הועלו תוכניות"></ul>
         <p class="doc-error" id="docError-plans" hidden></p>
       </div>
       <div class="doc-card" data-doc="tender">
@@ -656,8 +742,7 @@
         <p class="doc-hint">גררו לכאן קבצי PDF, או</p>
         <button type="button" class="btn ghost doc-upload-btn" data-doc="tender">בחירת קבצים</button>
         <input type="file" id="docFile-tender" class="doc-file-input" data-doc="tender" hidden multiple accept=".pdf">
-        <p class="doc-filename" id="docName-tender" data-empty="לא הועלו מסמכים" data-empty-plural="לא הועלו מסמכים">לא הועלו מסמכים</p>
-        <button type="button" class="doc-remove-btn" data-doc="tender" id="docRemove-tender" hidden>הסרת קבצים</button>
+        <ul class="doc-file-list" id="docList-tender" data-empty="לא הועלו מסמכים"></ul>
         <p class="doc-error" id="docError-tender" hidden></p>
       </div>
     </div>
@@ -768,13 +853,19 @@
       boq: ['.xls', '.xlsx'],
       plans: ['.pdf'],
       tender: ['.pdf'],
-      pricelists: []
+      pricelists: ['.xls', '.xlsx', '.pdf']
     };
     var DOC_ACCEPT_LABEL = {
       boq: 'קובץ Excel (.xls / .xlsx)',
       plans: 'קובץ PDF',
       tender: 'קובץ PDF',
-      pricelists: 'קובץ מתאים'
+      pricelists: 'קובץ Excel או PDF'
+    };
+    var DOC_MULTIPLE = {
+      boq: false,
+      plans: true,
+      tender: true,
+      pricelists: true
     };
     var docsBtn = document.getElementById('docsBtn');
     var docsModal = document.getElementById('docsModal');
@@ -794,18 +885,33 @@
       var docs = loadDocs();
       DOC_TYPES.forEach(function(type){
         var files = docs[type] || [];
-        var nameEl = document.getElementById('docName-' + type);
-        var removeBtn = document.getElementById('docRemove-' + type);
-        if(!nameEl) return;
-        if(files.length){
-          nameEl.textContent = files.map(function(f){ return f.name; }).join('، ');
-          nameEl.classList.add('has-file');
-          if(removeBtn){ removeBtn.hidden = false; }
-        } else {
-          nameEl.textContent = nameEl.getAttribute('data-empty') || '';
-          nameEl.classList.remove('has-file');
-          if(removeBtn){ removeBtn.hidden = true; }
+        var listEl = document.getElementById('docList-' + type);
+        if(!listEl) return;
+        listEl.innerHTML = '';
+        if(!files.length){
+          var emptyLi = document.createElement('li');
+          emptyLi.className = 'doc-file-empty';
+          emptyLi.textContent = listEl.getAttribute('data-empty') || '';
+          listEl.appendChild(emptyLi);
+          return;
         }
+        files.forEach(function(f, idx){
+          var li = document.createElement('li');
+          li.className = 'doc-file-item';
+          var nameSpan = document.createElement('span');
+          nameSpan.className = 'doc-file-name';
+          nameSpan.textContent = f.name;
+          var removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'doc-file-remove';
+          removeBtn.setAttribute('data-doc', type);
+          removeBtn.setAttribute('data-index', String(idx));
+          removeBtn.setAttribute('aria-label', 'הסרת ' + f.name);
+          removeBtn.textContent = '✕';
+          li.appendChild(nameSpan);
+          li.appendChild(removeBtn);
+          listEl.appendChild(li);
+        });
       });
     }
     function getFileExt(name){
@@ -835,9 +941,14 @@
       }
       if(!valid.length){ return; }
       var docs = loadDocs();
-      docs[type] = valid.map(function(f){
+      var newEntries = valid.map(function(f){
         return { name: f.name, size: f.size };
       });
+      if(DOC_MULTIPLE[type]){
+        docs[type] = (docs[type] || []).concat(newEntries);
+      } else {
+        docs[type] = newEntries;
+      }
       saveDocs(docs);
       renderDocs();
     }
@@ -856,14 +967,19 @@
         input.value = '';
       });
     });
-    document.querySelectorAll('.doc-remove-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
+    document.querySelectorAll('.doc-file-list').forEach(function(list){
+      list.addEventListener('click', function(e){
+        var btn = e.target.closest ? e.target.closest('.doc-file-remove') : null;
+        if(!btn){ return; }
         var type = btn.getAttribute('data-doc');
+        var idx = parseInt(btn.getAttribute('data-index'), 10);
         var docs = loadDocs();
-        delete docs[type];
-        saveDocs(docs);
-        renderDocs();
-        showDocError(type, '');
+        if(docs[type] && docs[type].length > idx){
+          docs[type].splice(idx, 1);
+          if(!docs[type].length){ delete docs[type]; }
+          saveDocs(docs);
+          renderDocs();
+        }
       });
     });
 
