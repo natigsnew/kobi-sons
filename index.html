@@ -577,14 +577,28 @@
   <form class="gate-box" id="gateForm">
     <div class="logo"><span class="mark">קב</span>קובי ובניו</div>
     <h2>כניסה לאתר</h2>
-    <p class="gate-sub">האתר פרטי לצוות — נא להזין שם משתמש וסיסמה</p>
+    <p class="gate-sub">האתר פרטי לצוות — נא להזין אתר בניה וסיסמה</p>
     <p class="gate-funny">קובי ובניו בע״מ — חברת בנייה ותשתיות הפועלת מאז 1962, המבצעת פרויקטי מגורים, תשתיות ומכרזים ציבוריים תוך הקפדה על איכות, בטיחות ועמידה בלוחות זמנים.</p>
-    <label class="gate-label" for="gateUser">שם משתמש</label>
+    <label class="gate-label" for="gateUser">אתר בניה</label>
     <input type="text" id="gateUser" class="gate-input" autocomplete="username" required>
     <label class="gate-label" for="gatePass">סיסמה</label>
     <input type="password" id="gatePass" class="gate-input" autocomplete="current-password" required>
     <button type="submit" class="btn primary" style="width:100%; justify-content:center; margin-top:18px;">כניסה</button>
-    <p id="gateError" class="gate-error" hidden>שם המשתמש או הסיסמה שגויים.</p>
+    <p id="gateError" class="gate-error" hidden>אתר הבניה או הסיסמה שגויים.</p>
+    <button type="button" class="admin-back-btn" id="toRegisterBtn">אין לך עדיין אתר בניה? הרשמה</button>
+  </form>
+
+  <form class="gate-box" id="registerForm" hidden>
+    <div class="logo"><span class="mark">קב</span>קובי ובניו</div>
+    <h2>הרשמת אתר בניה</h2>
+    <p class="gate-sub">בחרו שם לאתר הבניה שלכם וסיסמה</p>
+    <label class="gate-label" for="registerSite">אתר בניה</label>
+    <input type="text" id="registerSite" class="gate-input" autocomplete="username" required>
+    <label class="gate-label" for="registerPass">סיסמה</label>
+    <input type="password" id="registerPass" class="gate-input" autocomplete="new-password" required>
+    <button type="submit" class="btn primary" style="width:100%; justify-content:center; margin-top:18px;">הרשמה</button>
+    <p id="registerError" class="gate-error" hidden>שם אתר הבניה הזה כבר תפוס, בחרו שם אחר.</p>
+    <button type="button" class="admin-back-btn" id="toLoginBtn">כבר יש לך אתר בניה? כניסה</button>
   </form>
 
   <form class="gate-box" id="adminGateForm" hidden>
@@ -612,6 +626,11 @@
       <input type="file" id="docFile-pricelists" class="doc-file-input" data-doc="pricelists" hidden multiple accept=".xls,.xlsx,.pdf">
       <ul class="doc-file-list" id="docList-pricelists" data-empty="לא הועלו מחירונים"></ul>
       <p class="doc-error" id="docError-pricelists" hidden></p>
+    </div>
+    <div class="doc-card" data-doc="sites" style="margin-top:18px;">
+      <h3>אתרי בניה רשומים</h3>
+      <p class="doc-hint">מחיקת אתר בניה מוחקת גם את המסמכים ששייכים אליו</p>
+      <ul class="doc-file-list" id="sitesList" data-empty="אין אתרי בניה רשומים"></ul>
     </div>
     <p class="modal-note" style="margin-top:16px;">הקבצים נשמרים בדפדפן הזה בלבד (לא מועלים לשרת) — לצורך תצוגה מקדימה של מבנה האתר.</p>
   </div>
@@ -752,15 +771,20 @@
 
 <script>
   (function(){
-    /* ---- login gate ---- */
-    var GATE_KEY = 'kobiSonsSiteAuthed';
-    var VALID_USER = 'SNEW';
-    var VALID_PASS = 'SNEW';
+    /* ---- login gate: registered "construction sites" ---- */
+    var SITES_KEY = 'kobiSonsSitesV1';
+    var CURRENT_SITE_KEY = 'kobiSonsCurrentSiteV1';
     var gateOverlay = document.getElementById('gateOverlay');
     var gateForm = document.getElementById('gateForm');
     var gateUser = document.getElementById('gateUser');
     var gatePass = document.getElementById('gatePass');
     var gateError = document.getElementById('gateError');
+    var toRegisterBtn = document.getElementById('toRegisterBtn');
+    var registerForm = document.getElementById('registerForm');
+    var registerSite = document.getElementById('registerSite');
+    var registerPass = document.getElementById('registerPass');
+    var registerError = document.getElementById('registerError');
+    var toLoginBtn = document.getElementById('toLoginBtn');
     var adminBtn = document.getElementById('adminBtn');
     var adminGateForm = document.getElementById('adminGateForm');
     var adminUser = document.getElementById('adminUser');
@@ -770,9 +794,29 @@
     var adminPanel = document.getElementById('adminPanel');
     var adminPanelClose = document.getElementById('adminPanelClose');
 
+    function loadSites(){
+      try{
+        var raw = localStorage.getItem(SITES_KEY);
+        return raw ? JSON.parse(raw) : {};
+      }catch(e){ return {}; }
+    }
+    function saveSites(sites){
+      try{ localStorage.setItem(SITES_KEY, JSON.stringify(sites)); }catch(e){}
+    }
+    function getCurrentSite(){
+      try{ return localStorage.getItem(CURRENT_SITE_KEY) || ''; }catch(e){ return ''; }
+    }
+    function setCurrentSite(name){
+      try{ localStorage.setItem(CURRENT_SITE_KEY, name); }catch(e){}
+    }
+    function clearCurrentSite(){
+      try{ localStorage.removeItem(CURRENT_SITE_KEY); }catch(e){}
+    }
+
     function showGateView(view){
       if(gateForm){ gateForm.hidden = view !== 'login'; }
-      if(adminBtn){ adminBtn.hidden = view !== 'login'; }
+      if(registerForm){ registerForm.hidden = view !== 'register'; }
+      if(adminBtn){ adminBtn.hidden = (view === 'adminLogin' || view === 'adminPanel'); }
       if(adminGateForm){ adminGateForm.hidden = view !== 'adminLogin'; }
       if(adminPanel){ adminPanel.hidden = view !== 'adminPanel'; }
     }
@@ -781,14 +825,18 @@
       if(gateOverlay){ gateOverlay.hidden = true; }
     }
     try{
-      if(localStorage.getItem(GATE_KEY) === 'yes'){ unlockGate(); }
+      var __curSite = getCurrentSite();
+      var __sites = loadSites();
+      if(__curSite && __sites[__curSite]){ unlockGate(); }
     }catch(e){ /* localStorage unavailable - gate stays visible each visit */ }
 
     if(gateForm){
       gateForm.addEventListener('submit', function(e){
         e.preventDefault();
-        if(gateUser.value.trim() === VALID_USER && gatePass.value === VALID_PASS){
-          try{ localStorage.setItem(GATE_KEY, 'yes'); }catch(e){}
+        var siteName = gateUser.value.trim();
+        var sites = loadSites();
+        if(sites[siteName] && sites[siteName].password === gatePass.value){
+          setCurrentSite(siteName);
           gateError.hidden = true;
           unlockGate();
         } else {
@@ -797,11 +845,44 @@
       });
     }
 
-    /* ---- logout / switch user ---- */
+    if(toRegisterBtn){
+      toRegisterBtn.addEventListener('click', function(){
+        if(registerForm){ registerForm.reset(); }
+        if(registerError){ registerError.hidden = true; }
+        showGateView('register');
+        if(registerSite){ registerSite.focus(); }
+      });
+    }
+    if(toLoginBtn){
+      toLoginBtn.addEventListener('click', function(){
+        showGateView('login');
+        if(gateUser){ gateUser.focus(); }
+      });
+    }
+    if(registerForm){
+      registerForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var siteName = registerSite.value.trim();
+        var pass = registerPass.value;
+        var sites = loadSites();
+        if(!siteName || !pass){ return; }
+        if(sites[siteName]){
+          registerError.hidden = false;
+          return;
+        }
+        sites[siteName] = { password: pass, createdAt: Date.now() };
+        saveSites(sites);
+        setCurrentSite(siteName);
+        registerError.hidden = true;
+        unlockGate();
+      });
+    }
+
+    /* ---- logout / switch site ---- */
     var logoutBtn = document.getElementById('logoutBtn');
     if(logoutBtn && gateOverlay){
       logoutBtn.addEventListener('click', function(){
-        try{ localStorage.removeItem(GATE_KEY); }catch(e){}
+        clearCurrentSite();
         if(gateForm){ gateForm.reset(); }
         if(gateError){ gateError.hidden = true; }
         showGateView('login');
@@ -813,6 +894,50 @@
     /* ---- admin login / panel ---- */
     var ADMIN_USER = 'ADMIN';
     var ADMIN_PASS = 'ADMIN';
+    function renderSites(){
+      var sites = loadSites();
+      var names = Object.keys(sites);
+      var listEl = document.getElementById('sitesList');
+      if(!listEl) return;
+      listEl.innerHTML = '';
+      if(!names.length){
+        var emptyLi = document.createElement('li');
+        emptyLi.className = 'doc-file-empty';
+        emptyLi.textContent = listEl.getAttribute('data-empty') || '';
+        listEl.appendChild(emptyLi);
+        return;
+      }
+      names.forEach(function(name){
+        var li = document.createElement('li');
+        li.className = 'doc-file-item';
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'doc-file-name';
+        nameSpan.textContent = name;
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'doc-file-remove';
+        removeBtn.setAttribute('data-site', name);
+        removeBtn.setAttribute('aria-label', 'מחיקת ' + name);
+        removeBtn.textContent = '✕';
+        li.appendChild(nameSpan);
+        li.appendChild(removeBtn);
+        listEl.appendChild(li);
+      });
+    }
+    var sitesListEl = document.getElementById('sitesList');
+    if(sitesListEl){
+      sitesListEl.addEventListener('click', function(e){
+        var btn = e.target.closest ? e.target.closest('.doc-file-remove') : null;
+        if(!btn){ return; }
+        var name = btn.getAttribute('data-site');
+        var sites = loadSites();
+        delete sites[name];
+        saveSites(sites);
+        try{ localStorage.removeItem('kobiSonsDocsV1_' + name); }catch(e){}
+        if(getCurrentSite() === name){ clearCurrentSite(); }
+        renderSites();
+      });
+    }
     if(adminBtn){
       adminBtn.addEventListener('click', function(){
         if(adminGateForm){ adminGateForm.reset(); }
@@ -833,6 +958,7 @@
         if(adminUser.value.trim() === ADMIN_USER && adminPass.value === ADMIN_PASS){
           if(adminGateError){ adminGateError.hidden = true; }
           renderDocs();
+          renderSites();
           showGateView('adminPanel');
         } else {
           adminGateError.hidden = false;
@@ -847,7 +973,8 @@
     }
 
     /* ---- documents modal ---- */
-    var DOCS_KEY = 'kobiSonsDocsV1';
+    /* boq/plans/tender are stored per construction site; pricelists is global (admin-only) */
+    var PRICELISTS_KEY = 'kobiSonsPricelistsV1';
     var DOC_TYPES = ['boq', 'plans', 'tender', 'pricelists'];
     var DOC_ACCEPT_EXT = {
       boq: ['.xls', '.xlsx'],
@@ -873,13 +1000,37 @@
     var docsLastFocused = null;
 
     function loadDocs(){
+      var docs = {};
       try{
-        var raw = localStorage.getItem(DOCS_KEY);
-        return raw ? JSON.parse(raw) : {};
-      }catch(e){ return {}; }
+        var site = getCurrentSite();
+        var raw = localStorage.getItem('kobiSonsDocsV1_' + (site || '__anon__'));
+        if(raw){
+          var parsed = JSON.parse(raw);
+          for(var k in parsed){ if(parsed.hasOwnProperty(k)){ docs[k] = parsed[k]; } }
+        }
+      }catch(e){}
+      try{
+        var rawPl = localStorage.getItem(PRICELISTS_KEY);
+        if(rawPl){ docs.pricelists = JSON.parse(rawPl); }
+      }catch(e){}
+      return docs;
     }
     function saveDocs(docs){
-      try{ localStorage.setItem(DOCS_KEY, JSON.stringify(docs)); }catch(e){}
+      var siteDocs = {};
+      ['boq', 'plans', 'tender'].forEach(function(t){
+        if(docs[t]){ siteDocs[t] = docs[t]; }
+      });
+      try{
+        var site = getCurrentSite();
+        localStorage.setItem('kobiSonsDocsV1_' + (site || '__anon__'), JSON.stringify(siteDocs));
+      }catch(e){}
+      try{
+        if(docs.pricelists){
+          localStorage.setItem(PRICELISTS_KEY, JSON.stringify(docs.pricelists));
+        } else {
+          localStorage.removeItem(PRICELISTS_KEY);
+        }
+      }catch(e){}
     }
     function renderDocs(){
       var docs = loadDocs();
